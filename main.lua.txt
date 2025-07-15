@@ -1,94 +1,3 @@
--- Dead Rails | MadoHub UI Version
--- WindUI Init
-local WindUI = loadstring(
-    game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua")
-)()
-
-if not WindUI or type(WindUI.CreateWindow) ~= "function" then
-    error("❌ WindUI failed to load — check the URL or your internet connection.")
-end
-
--- Services
-local Players = game:GetService("Players")
-local RunService = game:GetService("RunService")
-local ReplicatedStorage = game:GetService("ReplicatedStorage")
-local Workspace = game:GetService("Workspace")
-local LocalPlayer = Players.LocalPlayer
-local CurrentCamera = Workspace.CurrentCamera
-local CoreGui = game:GetService("CoreGui")
-
--- Gradient Utility
-local function gradient(text, startColor, endColor)
-    local result = ""
-    local length = #text
-    for i = 1, length do
-        local t = (i - 1) / math.max(length - 1, 1)
-        local r = math.floor((startColor.R + (endColor.R - startColor.R) * t) * 255)
-        local g = math.floor((startColor.G + (endColor.G - startColor.G) * t) * 255)
-        local b = math.floor((startColor.B + (endColor.B - startColor.B) * t) * 255)
-        local char = text:sub(i, i)
-        result = result .. "<font color=\"rgb(" .. r ..", " .. g .. ", " .. b .. ")\">" .. char .. "</font>"
-    end
-    return result
-end
-
--- Confirmation Popup
-local Confirmed = false
-WindUI:Popup({
-    Title = gradient("MadoHub", Color3.fromHex("#eb1010"), Color3.fromHex("#1023eb")),
-    Icon = "info",
-    Content = gradient("This Dead Rails script made by", Color3.fromHex("#10eb3c"), Color3.fromHex("#67c97a")) .. gradient(" Mado", Color3.fromHex("#001e80"), Color3.fromHex("#16f2d9")),
-    Buttons = {
-        {
-            Title = gradient("Cancel", Color3.fromHex("#e80909"), Color3.fromHex("#630404")),
-            Callback = function() end,
-            Variant = "Tertiary",
-        },
-        {
-            Title = gradient("Load", Color3.fromHex("#90f09e"), Color3.fromHex("#13ed34")),
-            Callback = function() Confirmed = true end,
-            Variant = "Secondary",
-        }
-    }
-})
-repeat task.wait() until Confirmed
-
-WindUI:Notify({
-    Title = gradient("MadoHub", Color3.fromHex("#eb1010"), Color3.fromHex("#1023eb")),
-    Content = "Loaded successfully.",
-    Icon = "check-circle",
-    Duration = 3,
-})
-
--- Create Window
-local Window = WindUI:CreateWindow({
-    Title = gradient("MadoHub | Dead Rails", Color3.fromHex("#001e80"), Color3.fromHex("#16f2d9")),
-    Icon = "train",
-    Author = gradient("Dead Rails | S1", Color3.fromHex("#1bf2b2"), Color3.fromHex("#1bcbf2")),
-    Folder = "WindUI",
-    Size = UDim2.fromOffset(320, 270),
-    Transparent = true,
-    Theme = "Dark",
-    SideBarWidth = 200,
-    UserEnabled = true,
-    HasOutline = true,
-})
-
--- Tabs
-local Tabs = {
-    Main = Window:Tab({ Title = gradient("MAIN", Color3.fromHex("#ffffff"), Color3.fromHex("#636363")), Icon = "terminal" }),
-    Farm = Window:Tab({ Title = gradient("FARM", Color3.fromHex("#ffffff"), Color3.fromHex("#636363")), Icon = "coin" }),
-    Aimbot = Window:Tab({ Title = gradient("AIMBOT", Color3.fromHex("#ffffff"), Color3.fromHex("#636363")), Icon = "crosshair" }),
-    ESP = Window:Tab({ Title = gradient("ESP", Color3.fromHex("#ffffff"), Color3.fromHex("#636363")), Icon = "eye" }),
-    Teleport = Window:Tab({ Title = gradient("TELEPORT", Color3.fromHex("#ffffff"), Color3.fromHex("#636363")), Icon = "map" }),
-    Misc = Window:Tab({ Title = gradient("MISC", Color3.fromHex("#ffffff"), Color3.fromHex("#636363")), Icon = "settings" }),
-    Settings = Window:Tab({ Title = gradient("SETTINGS", Color3.fromHex("#ffffff"), Color3.fromHex("#636363")), Icon = "sliders" }),
-    Credits = Window:Tab({ Title = gradient("CREDITS", Color3.fromHex("#ffffff"), Color3.fromHex("#636363")), Icon = "info" }),
-}
-
-
--- Begin Dead Rails Features
-
 local Fluent = loadstring(game:HttpGet("https://github.com/dawid-scripts/Fluent/releases/latest/download/main.lua"))()
 
 local SaveManager = loadstring(game:HttpGet("https://raw.githubusercontent.com/hungquan99/FluentUI/master/Addons/SaveManager.lua"))()
@@ -97,7 +6,7 @@ local InterfaceManager = loadstring(game:HttpGet("https://raw.githubusercontent.
 
 local minimizeUI = Enum.KeyCode.RightAlt
 
--- ðŸŸ¢ Create Main UI
+-- 🟢 Create Main UI
 local Window = Fluent:CreateWindow({
     Title = "Ringta Scripts",
     SubTitle = "With BIGBACK",
@@ -133,10 +42,10 @@ do
 
     Tabs.FarT:AddParagraph({
         Title = "Note",
-        Content = "â€¢ These are toggle so you can use with configs, disabling it does not stop it.\nâ€¢ Set up configs in Settings tab."
+        Content = "• These are toggle so you can use with configs, disabling it does not stop it.\n• Set up configs in Settings tab."
     })
 
-    Tabs.FarT:AddSection("â†³ Bonds")
+    Tabs.FarT:AddSection("↳ Bonds")
 
     local AfBToggle = Tabs.FarT:AddToggle("AfBToggle", {Title = "Auto Farm Bonds", Description = 'Normal version of farm bonds.',Default = false })
     AfBToggle:OnChanged(function(Value)
@@ -160,7 +69,7 @@ do
         end
     end)
 
-    Tabs.FarT:AddSection("â†³ Win")
+    Tabs.FarT:AddSection("↳ Win")
 
     local AfBToggle12 = Tabs.FarT:AddToggle("AfBToggle12", {Title = "Auto Farm Bonds & Win", Description = 'Click here to start AI farm bonds & win.\nRecommend to use cowboy class.',Default = false })
     AfBToggle12:OnChanged(function(Value)
@@ -170,7 +79,7 @@ do
         end
     end)
 
-    Tabs.Ma:AddSection("â†³ Class")
+    Tabs.Ma:AddSection("↳ Class")
 
     Tabs.Ma:AddButton({
         Title = "Get Horse Class",
@@ -194,11 +103,11 @@ do
         end
     })
 
-    Tabs.Ma:AddSection("â†³ Aimbot")
+    Tabs.Ma:AddSection("↳ Aimbot")
 
     Tabs.Ma:AddButton({
         Title = "Aimbot V1",
-        Description = "â€¢ Mobile Support",
+        Description = "• Mobile Support",
         Callback = function()
             -- Aimbot Script
             local RunService = game:GetService("RunService")
@@ -466,7 +375,7 @@ do
         local fov = 100
         Tabs.Ma:AddButton({
             Title = "Aimbot V2",
-            Description = "â€¢ Mobile support",
+            Description = "• Mobile support",
             Callback = function()
                 
                 local RunService = game:GetService("RunService")
@@ -747,7 +656,7 @@ do
             end
         })
     else
-        local AimToggle = Tabs.Ma:AddToggle("AimToggle", {Title = "Aimbot V2", Description = "â€¢ Hold M2 to start aiming.", Default = false })
+        local AimToggle = Tabs.Ma:AddToggle("AimToggle", {Title = "Aimbot V2", Description = "• Hold M2 to start aiming.", Default = false })
         AimToggle:OnChanged(function()
             Aimbot.Enabled = AimToggle.Value
         end)
@@ -769,7 +678,7 @@ do
         end
     })
 
-    -- ðŸŸ¢ Enhanced NPC Lock Script with Draggable UI
+    -- 🟢 Enhanced NPC Lock Script with Draggable UI
     local Players = game:GetService("Players")
     local UserInputService = game:GetService("UserInputService")
     local TweenService = game:GetService("TweenService")
@@ -814,7 +723,7 @@ do
     uicorner.CornerRadius = UDim.new(0.2, 0)
     uicorner.Parent = button
 
-    -- ðŸŸ¢ Dragging Feature (Integrated)
+    -- 🟢 Dragging Feature (Integrated)
     local dragging, dragStart, startPos, isDragging = false, nil, nil, false
     local dragThreshold = 10
 
@@ -856,7 +765,7 @@ do
         end
     end)
 
-    -- ðŸŸ¢ Click Animation
+    -- 🟢 Click Animation
     button.MouseButton1Click:Connect(function()
         if isDragging then return end
 
@@ -867,7 +776,7 @@ do
         resetTween:Play()
     end)
 
-    -- ðŸŸ¢ NPC Lock Logic
+    -- 🟢 NPC Lock Logic
     local npcLock = false
     local lastTarget = nil
     local toggleLoop
@@ -987,9 +896,9 @@ do
     end)
 
 
-    Tabs.Ma:AddSection("â†³ ESP")
+    Tabs.Ma:AddSection("↳ ESP")
 
-    local EspToggle = Tabs.Ma:AddToggle("EspToggle", {Title = "ESP", Description = "â€¢ ESP Items/Mobs", Default = false })
+    local EspToggle = Tabs.Ma:AddToggle("EspToggle", {Title = "ESP", Description = "• ESP Items/Mobs", Default = false })
     EspToggle:OnChanged(function()
         if EspToggle.Value then
             ESP.Initialize()
@@ -999,7 +908,7 @@ do
         end
     end)
 
-    Tabs.Ma:AddSection("â†³ Hitbox")
+    Tabs.Ma:AddSection("↳ Hitbox")
 
     getgenv().hitboxEnabled = false
     local hitboxTransparency = 0.85 -- Semi-visible
@@ -1010,7 +919,7 @@ do
     local lastUpdate = 0
     local UPDATE_INTERVAL = 0.3 -- Update every 0.3s to prevent lag
 
-    -- âœ… Target NPCs List
+    -- ✅ Target NPCs List
     local targetNPCs = {
         ["Vampire"] = true, ["Werewolf"] = true, ["Wolf"] = true,
         ["Runner"] = true, ["Walker"] = true, ["Banner"] = true, 
@@ -1024,7 +933,7 @@ do
         return character:IsA("Model") and character:FindFirstChild("Humanoid") and targetNPCs[character.Name]
     end
 
-    -- âœ… Expand Hitbox (Both HumanoidRootPart & Head)
+    -- ✅ Expand Hitbox (Both HumanoidRootPart & Head)
     local function expandHitbox(npc)
         for _, partName in ipairs({"HumanoidRootPart", "Head"}) do
             local hitboxPart = npc:FindFirstChild(partName)
@@ -1037,20 +946,20 @@ do
                 if not originalProperties[npc][partName] then
                     originalProperties[npc][partName] = {
                         Size = hitboxPart.Size,
-                        Transparency = (partName == "HumanoidRootPart") and 1 or 0, -- âœ… Correct original transparency
+                        Transparency = (partName == "HumanoidRootPart") and 1 or 0, -- ✅ Correct original transparency
                         Shape = hitboxPart.Shape,
                         CanCollide = hitboxPart.CanCollide
                     }
                 end
 
-                -- ðŸ”¹ Apply Hitbox Expansion
+                -- 🔹 Apply Hitbox Expansion
                 hitboxPart.Size = hitboxSize
-                hitboxPart.Transparency = hitboxTransparency -- âœ… Hitbox is always visible when enabled
+                hitboxPart.Transparency = hitboxTransparency -- ✅ Hitbox is always visible when enabled
                 hitboxPart.Color = hitboxColor
                 hitboxPart.Material = Enum.Material.ForceField
-                hitboxPart.CanCollide = false -- âœ… Prevent collisions
+                hitboxPart.CanCollide = false -- ✅ Prevent collisions
 
-                -- ðŸ”¹ Ensure HumanoidRootPart is a Box & Head is a Sphere
+                -- 🔹 Ensure HumanoidRootPart is a Box & Head is a Sphere
                 if partName == "HumanoidRootPart" then
                     hitboxPart.Shape = Enum.PartType.Block
                 else
@@ -1060,7 +969,7 @@ do
         end
     end
 
-    -- âœ… Reset Hitbox to Default
+    -- ✅ Reset Hitbox to Default
     local function resetHitbox(npc)
         for _, partName in ipairs({"HumanoidRootPart", "Head"}) do
             local hitboxPart = npc:FindFirstChild(partName)
@@ -1076,19 +985,19 @@ do
         originalProperties[npc] = nil
     end
 
-    -- âœ… Remove Hitbox from Dead NPCs
+    -- ✅ Remove Hitbox from Dead NPCs
     local function monitorNPCHealth(npc)
         local humanoid = npc:FindFirstChild("Humanoid")
         if humanoid then
             humanoid:GetPropertyChangedSignal("Health"):Connect(function()
                 if humanoid.Health <= 0 then
-                    resetHitbox(npc) -- âœ… Reset hitbox if NPC dies
+                    resetHitbox(npc) -- ✅ Reset hitbox if NPC dies
                 end
             end)
         end
     end
 
-    -- âœ… Optimized NPC Update Loop (Prevents lag)
+    -- ✅ Optimized NPC Update Loop (Prevents lag)
     local function updateAllNPCs()
         local currentTime = tick()
         if currentTime - lastUpdate < UPDATE_INTERVAL then return end
@@ -1115,7 +1024,7 @@ do
         updateAllNPCs()
     end
 
-    -- âœ… UI Toggle for Hitbox Expander (Now Enables Visibility Automatically)
+    -- ✅ UI Toggle for Hitbox Expander (Now Enables Visibility Automatically)
     local HitboxToggle = Tabs.Ma:AddToggle("HitboxToggle", {
         Title = "Hitbox Expander",
         Default = false
@@ -1125,7 +1034,7 @@ do
         toggleHitbox(Value)
     end)
 
-    Tabs.Ma:AddSection("â†³ Kill Aura")
+    Tabs.Ma:AddSection("↳ Kill Aura")
     if game.PlaceId == 116495829188952 then
         Tabs.Ma:AddParagraph({
             Title = "Note",
@@ -1273,7 +1182,7 @@ do
         })
     end
 
-    Tabs.Ma:AddSection("â†³ Melee")
+    Tabs.Ma:AddSection("↳ Melee")
 
     local autoClickConnection = nil
 
@@ -1308,7 +1217,7 @@ do
 
 
 
-local auraScriptName = "AuraEffect" -- TÃªn giáº£ Ä‘á»‹nh Ä‘á»ƒ tÃ¬m hiá»‡u á»©ng, báº¡n cÃ³ thá»ƒ Ä‘á»•i tÃ¹y theo script táº¡o ra gÃ¬
+local auraScriptName = "AuraEffect" -- Tên giả định để tìm hiệu ứng, bạn có thể đổi tùy theo script tạo ra gì
 
 local auraToggle = Tabs.Ma:AddToggle("AuraToggle", {
     Title = "Melee Aura V3",
@@ -1317,10 +1226,10 @@ local auraToggle = Tabs.Ma:AddToggle("AuraToggle", {
 
 auraToggle:OnChanged(function(Value)
     if Value then
-        -- Báº­t: táº£i vÃ  cháº¡y script tá»« link
+        -- Bật: tải và chạy script từ link
         loadstring(game:HttpGet("https://raw.githubusercontent.com/Shade-vex/Dead-Rails-V3/refs/heads/main/Melle-Aura.lua.txt"))()
     else
-        -- Táº¯t: tÃ¬m vÃ  xÃ³a hiá»‡u á»©ng liÃªn quan (tÃ¹y vÃ o script táº¡o gÃ¬, báº¡n sá»­a láº¡i náº¿u biáº¿t rÃµ hÆ¡n)
+        -- Tắt: tìm và xóa hiệu ứng liên quan (tùy vào script tạo gì, bạn sửa lại nếu biết rõ hơn)
         local function tryDestroyIn(parent)
             for _, obj in ipairs(parent:GetChildren()) do
                 if obj.Name:lower():find("aura") or obj.Name == auraScriptName then
@@ -1341,7 +1250,7 @@ end)
 
 
 
-    Tabs.Ma:AddSection("â†³ Auto Heal")
+    Tabs.Ma:AddSection("↳ Auto Heal")
     
     local Players = game:GetService("Players")
     local UserInputService = game:GetService("UserInputService")
@@ -1497,7 +1406,7 @@ end
 
 
 
-    Tabs.Ite:AddSection("â†³ Tesla")
+    Tabs.Ite:AddSection("↳ Tesla")
 
 
 
@@ -1505,7 +1414,7 @@ Tabs.Ite:AddButton({
     Title = "Auto Spawn Tesla",
     Callback = function()
         pcall(function()
-            -- Táº£i vÃ  cháº¡y script tá»« link
+            -- Tải và chạy script từ link
             loadstring(game:HttpGet("https://raw.githubusercontent.com/Shade-vex/bruh/refs/heads/main/Auto-Tesla-Boss.lua"))()
         end)
     end
@@ -1514,7 +1423,7 @@ Tabs.Ite:AddButton({
 
 
 
-    Tabs.Ite:AddSection("â†³ Item")              
+    Tabs.Ite:AddSection("↳ Item")              
 
 
 
@@ -1632,7 +1541,7 @@ PsoBToggle:OnChanged(function(Value)
                         PickUpTool:FireServer(item)
                     end
                 end
-                task.wait(0.5) -- Giáº£m táº£i, khÃ´ng cáº§n Heartbeat
+                task.wait(0.5) -- Giảm tải, không cần Heartbeat
             end
         end)
     end
@@ -1645,38 +1554,38 @@ end)
 
 local autoCollectEnabled = false
 
--- Táº¡o Toggle má»›i Ä‘á»ƒ báº­t/táº¯t Auto Pickup Gun thÃ´ng qua link script
+-- Tạo Toggle mới để bật/tắt Auto Pickup Gun thông qua link script
 local GunToggle = Tabs.Ite:AddToggle("GunToggle", {
     Title = "Auto Pickup Gun(s)",
     Default = false
 })
 
--- Biáº¿n Ä‘á»ƒ lÆ°u trá»¯ hÃ m toggle
+-- Biến để lưu trữ hàm toggle
 local toggleFunction = nil
 local gunCoroutine = nil
 
--- Khi toggle thay Ä‘á»•i tráº¡ng thÃ¡i
+-- Khi toggle thay đổi trạng thái
 GunToggle:OnChanged(function(Value)
     autoCollectEnabled = Value
     
     if autoCollectEnabled then
-        -- Sá»­ dá»¥ng coroutine Ä‘á»ƒ cháº¡y script khÃ´ng bá»‹ ngháº½n
+        -- Sử dụng coroutine để chạy script không bị nghẽn
         gunCoroutine = coroutine.create(function()
             pcall(function()
                 loadstring(game:HttpGet("https://raw.githubusercontent.com/Shade-vex/sjsnskk/refs/heads/main/pickupgun"))()
                 
                 if _G.ToggleAutoPickupGun then
                     toggleFunction = _G.ToggleAutoPickupGun
-                    toggleFunction(true) -- KÃ­ch hoáº¡t
+                    toggleFunction(true) -- Kích hoạt
                 else
-                    warn("âš ï¸ KhÃ´ng tÃ¬m tháº¥y hÃ m _G.ToggleAutoPickupGun!")
+                    warn("⚠️ Không tìm thấy hàm _G.ToggleAutoPickupGun!")
                 end
             end)
         end)
         coroutine.resume(gunCoroutine)
     else
         if toggleFunction then
-            toggleFunction(false) -- Táº¯t náº¿u toggle chuyá»ƒn sang false
+            toggleFunction(false) -- Tắt nếu toggle chuyển sang false
         end
     end
 end)
@@ -1766,16 +1675,16 @@ if game.PlaceId == 116495829188952 then
         Content = "Use these features with care!"
     })
 else
-    Tabs.TpT:AddSection("â†³ End Game")
+    Tabs.TpT:AddSection("↳ End Game")
     
-    -- Khá»Ÿi táº¡o Toggle
+    -- Khởi tạo Toggle
     local CtimeToggle = Tabs.TpT:AddToggle("CtimeToggle", {
         Title = "Countdown",
         Description = "10 minutes countdown",
         Default = false
     })
     
-    -- Táº¡o GUI
+    -- Tạo GUI
     local CountdownGui = Instance.new("ScreenGui")
     CountdownGui.Name = "CountdownUI"
     CountdownGui.ResetOnSpawn = false
@@ -1813,7 +1722,7 @@ else
     Label.TextColor3 = Color3.fromRGB(255, 255, 255)
     Label.Parent = Frame
     
-    local countdownTime = 10 * 60 -- 10 phÃºt
+    local countdownTime = 10 * 60 -- 10 phút
     local running = false
     local lastTimeChecked = os.time()
     local pausedTime = nil
@@ -1824,12 +1733,12 @@ else
         return string.format("%02d:%02d", minutes, secs)
     end
     
-    -- Cáº­p nháº­t GUI
+    -- Cập nhật GUI
     local function updateCountdown()
         Label.Text = formatTime(countdownTime)
     end
 
-    -- HÃ m cháº¡y Ä‘áº¿m ngÆ°á»£c
+    -- Hàm chạy đếm ngược
     task.spawn(function()
         while countdownTime > 0 do
             task.wait(1)
@@ -1846,12 +1755,12 @@ else
         end
     end)
 
-    -- Toggle báº­t/táº¯t
+    -- Toggle bật/tắt
     CtimeToggle:OnChanged(function(Value)
         Frame.Visible = Value
         if Value then
             if pausedTime then
-                -- Náº¿u Ä‘Ã£ pause, cáº­p nháº­t thá»i gian bá»‹ trÃ´i Ä‘i
+                -- Nếu đã pause, cập nhật thời gian bị trôi đi
                 local now = os.time()
                 local delta = now - pausedTime
                 countdownTime -= delta
@@ -1861,7 +1770,7 @@ else
             running = true
         else
             running = false
-            pausedTime = os.time() -- LÆ°u láº¡i thá»i gian khi táº¯t Ä‘i
+            pausedTime = os.time() -- Lưu lại thời gian khi tắt đi
         end
     end)
 end
@@ -1940,13 +1849,13 @@ end
 
 
 
-Tabs.TpT:AddSection("â†³ Train")
+Tabs.TpT:AddSection("↳ Train")
 
 Tabs.TpT:AddButton({
     Title = "TP To Train",
     Callback = function()
         pcall(function()
-            -- Táº£i vÃ  cháº¡y script tá»« link
+            -- Tải và chạy script từ link
             loadstring(game:HttpGet("https://raw.githubusercontent.com/Shade-vex/KJ/refs/heads/main/TPtotrain.txt"))()
         end)
     end
@@ -1955,11 +1864,11 @@ Tabs.TpT:AddButton({
 
 
 
-Tabs.TpT:AddSection("â†³ Bases")
+Tabs.TpT:AddSection("↳ Bases")
 
 local Players = game:GetService("Players")
 local player = Players.LocalPlayer
-local gameWorkspace = game:GetService("Workspace") -- Äá»•i tÃªn trÃ¡nh ghi Ä‘Ã¨
+local gameWorkspace = game:GetService("Workspace") -- Đổi tên tránh ghi đè
 
 local teleportLocations = {
     ["Spawn"] = CFrame.new(56.6396217, 3.24999976, 29936.3516),
@@ -2150,7 +2059,7 @@ Tabs.TpT:AddButton({
     Title = "TP To Fast Castle",
     Callback = function()
         pcall(function()
-            -- Táº£i vÃ  cháº¡y script tá»« link
+            -- Tải và chạy script từ link
             loadstring(game:HttpGet("https://raw.githubusercontent.com/Shade-vex/KJ/refs/heads/main/FASTCASTLE.txt"))()
         end)
     end
@@ -2163,7 +2072,7 @@ Tabs.TpT:AddButton({
     Title = "TP To Fort",
     Callback = function()
         pcall(function()
-            -- Táº£i vÃ  cháº¡y script tá»« link
+            -- Tải và chạy script từ link
             loadstring(game:HttpGet("https://raw.githubusercontent.com/Shade-vex/KJ/refs/heads/main/Tpfort.lua.txt"))()
         end)
     end
@@ -2175,18 +2084,18 @@ Tabs.TpT:AddButton({
     Title = "TP To Sterling",
     Callback = function()
         pcall(function()
-            -- Hook SetCore Ä‘á»ƒ cháº·n thÃ´ng bÃ¡o
+            -- Hook SetCore để chặn thông báo
             local originalSetCore = game:GetService("StarterGui").SetCore
             local blocked = {"SendNotification"}
 
             hookfunction(originalSetCore, function(self, method, ...)
                 if table.find(blocked, method) then
-                    return -- Cháº·n thÃ´ng bÃ¡o xuáº¥t hiá»‡n
+                    return -- Chặn thông báo xuất hiện
                 end
                 return originalSetCore(self, method, ...)
             end)
 
-            -- Táº£i vÃ  cháº¡y script tá»« link
+            -- Tải và chạy script từ link
             loadstring(game:HttpGet("https://raw.githubusercontent.com/Shade-vex/KJ/refs/heads/main/TPsterling.txt"))()
         end)
     end
@@ -2205,7 +2114,7 @@ Tabs.Player:AddButton({
     Title = "Tool Air Weld",
     Callback = function()
         pcall(function()
-            -- Táº£i vÃ  cháº¡y script tá»« link
+            -- Tải và chạy script từ link
             loadstring(game:HttpGet("https://raw.githubusercontent.com/Shade-vex/DeadRails/refs/heads/main/Air-Weld.lua"))()
         end)
     end
@@ -2220,7 +2129,7 @@ Tabs.Player:AddButton({
 
 
 do
-    Tabs.Player:AddSection("â†³ Noclip")
+    Tabs.Player:AddSection("↳ Noclip")
 
     local runService = game:GetService("RunService")
     local players = game:GetService("Players")
@@ -2270,7 +2179,7 @@ do
     localPlayer.CharacterAdded:Connect(function()
         wait(1) -- Allow character to fully load
         if NcToggle.Value then
-            NcToggle:SetValue(true) -- âœ… Reactivate Noclip if it was already enabled
+            NcToggle:SetValue(true) -- ✅ Reactivate Noclip if it was already enabled
         end
     end)
 
@@ -2410,7 +2319,7 @@ do
         end
     end
 
-    Tabs.Player:AddSection("â†³ Fly")
+    Tabs.Player:AddSection("↳ Fly")
 
     local Players = game:GetService("Players")
     local UIS = game:GetService("UserInputService")
@@ -2506,7 +2415,7 @@ do
     })
 
 
-    Tabs.Player:AddSection("â†³ WalkSpeed")
+    Tabs.Player:AddSection("↳ WalkSpeed")
 
     local Players = game:GetService("Players")
     local player = Players.LocalPlayer
@@ -2555,7 +2464,7 @@ do
         end
     end)
 
-    Tabs.Player:AddSection("â†³ JumpHeight")
+    Tabs.Player:AddSection("↳ JumpHeight")
     -- Slider: JumpHeight
     local JumpHeightSlider = Tabs.Player:AddSlider("JumpHeightSlider", {
         Title = "JumpHeight Multiplier",
@@ -2766,7 +2675,7 @@ do
     
     local BuildingBankToggle = Tabs.Misc:AddToggle("BuildingBankToggle", {
         Title = "Building Alerts",
-        Description = "â€¢ Alerts for new buildings.",
+        Description = "• Alerts for new buildings.",
         Default = false
     })
     
@@ -2781,7 +2690,7 @@ do
 
     Tabs.Misc:AddButton({
         Title = "Camera Unlocker",
-        Description = "â€¢ Unlock third-person view.",
+        Description = "• Unlock third-person view.",
         Callback = function()
             local player = game.Players.LocalPlayer
             local camera = game.Workspace.CurrentCamera
@@ -2920,7 +2829,7 @@ do
         end
     end)
 
-    Tabs.Misc:AddSection("â†³ Bypass")
+    Tabs.Misc:AddSection("↳ Bypass")
 
     local player = game:GetService("Players").LocalPlayer
     local UserInputService = game:GetService("UserInputService")
@@ -3196,7 +3105,7 @@ do
         end
     end)
 
-    Tabs.Misc:AddSection("â†³ MISC")
+    Tabs.Misc:AddSection("↳ MISC")
 
     local FpsbfToggle1 = Tabs.Misc:AddToggle("FpsbfToggle1", {Title = "FPS Boost", Default = false })
     FpsbfToggle1:OnChanged(function(Value)
@@ -3320,7 +3229,7 @@ SaveManager:LoadAutoloadConfig()
 
 
 
--- ðŸŸ¢ DRAGGABLE UI BUTTON WITH ENHANCED CLICK AND HOVER ANIMATIONS
+-- 🟢 DRAGGABLE UI BUTTON WITH ENHANCED CLICK AND HOVER ANIMATIONS
 local UserInputService = game:GetService("UserInputService")
 local CoreGui = game:GetService("CoreGui")
 local TweenService = game:GetService("TweenService")
