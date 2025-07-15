@@ -1,6 +1,12 @@
 -- Dead Rails | MadoHub UI Version
 -- WindUI Init
-local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
+local WindUI = loadstring(
+    game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua")
+)()
+
+if not WindUI or type(WindUI.CreateWindow) ~= "function" then
+    error("❌ WindUI failed to load — check the URL or your internet connection.")
+end
 
 -- Services
 local Players = game:GetService("Players")
