@@ -1,17 +1,23 @@
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
+local isMobile = (game:GetService("UserInputService").TouchEnabled and not (game:GetService("UserInputService").KeyboardEnabled)
+local windowSize = isMobile and UDim2.fromOffset(350, 500) or UDim2.fromOffset(600, 500)
+local textSize = isMobile and 12 or 14
+local elementHeight = isMobile and 30 or 36
+
 -- Place Check
 if game.PlaceId ~= 13864667823 then
     if game.PlaceId == 14775231477 or game.PlaceId == 13864661000 then
         -- Free Gamepasses (LOBBY)
-        local Window = WindUI:CreateWindow({
-            Title = "Breaking Blitz",
-            Icon = "rbxassetid://4483345998",
-            Folder = "BreakingBlitz",
-            Size = UDim2.fromOffset(600, 500),
-            Theme = "Dark"
-        })
-
+        local Window = WindUI:Clocal Window = WindUI:CreateWindow({
+    Title = "Breaking Blitz",
+    Icon = "rbxassetid://4483345998",
+    Folder = "BreakingBlitz",
+    Size = windowSize,  -- Uses mobile size if detected
+    Theme = "Dark",
+    TextSize = textSize,  -- Smaller text on mobile
+    ElementHeight = elementHeight  -- Smaller elements on mobile
+})
         local Tabs = {}
         Tabs.MainTab = Window:Section({Title = "Free Gamepasses", Opened = true})
         
