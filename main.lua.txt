@@ -1,75 +1,21 @@
 local WindUI = loadstring(game:HttpGet("https://github.com/Footagesus/WindUI/releases/latest/download/main.lua"))()
 
-function gradient(text, startColor, endColor)
-    local result = ""
-    local length = #text
-    for i = 1, length do
-        local t = (i - 1) / math.max(length - 1, 1)
-        local r = math.floor((startColor.R + (endColor.R - startColor.R) * t) * 255)
-        local g = math.floor((startColor.G + (endColor.G - startColor.G) * t) * 255)
-        local b = math.floor((startColor.B + (endColor.B - startColor.B) * t) * 255)
-        local char = text:sub(i, i)
-        result = result .. "<font color=\\"rgb(" .. r ..", " .. g .. ", " .. b .. ")\\">" .. char .. "</font>"
-    end
-    return result
-end
-
-local WindUI = loadstring(game:HttpGet("https://raw.githubusercontent.com/madohub-dev/WindUI/main/source.lua"))()
-local Confirmed = false
-
-function gradient(text, startColor, endColor)
-    local result = ""
-    local length = #text
-    for i = 1, length do
-        local t = (i - 1) / math.max(length - 1, 1)
-        local r = math.floor((startColor.R + (endColor.R - startColor.R) * t) * 255)
-        local g = math.floor((startColor.G + (endColor.G - startColor.G) * t) * 255)
-        local b = math.floor((startColor.B + (endColor.B - startColor.B) * t) * 255)
-        local char = text:sub(i, i)
-        result = result .. "<font color=\"rgb(" .. r ..", " .. g .. ", " .. b .. ")\">" .. char .. "</font>"
-    end
-    return result
-end
-
-WindUI:Popup({
-    Title = gradient("MadoHub", Color3.fromHex("#eb1010"), Color3.fromHex("#1023eb")),
-    Icon = "info",
-    Content = gradient("This script made by", Color3.fromHex("#10eb3c"), Color3.fromHex("#67c97a")) .. gradient(" Mado", Color3.fromHex("#001e80"), Color3.fromHex("#16f2d9")),
-    Buttons = {
-        {
-            Title = gradient("Cancel", Color3.fromHex("#e80909"), Color3.fromHex("#630404")),
-            Callback = function() end,
-            Variant = "Tertiary",
-        },
-        {
-            Title = gradient("Load", Color3.fromHex("#90f09e"), Color3.fromHex("#13ed34")),
-            Callback = function() Confirmed = true end,
-            Variant = "Secondary",
-        }
-    }
-})
-repeat task.wait() until Confirmed
-
 -- Place Check
 if game.PlaceId ~= 13864667823 then
     if game.PlaceId == 14775231477 or game.PlaceId == 13864661000 then
         -- Free Gamepasses (LOBBY)
         local Window = WindUI:CreateWindow({
-    Title = gradient("Breaking Blitz", Color3.fromRGB(255, 255, 255), Color3.fromRGB(0, 255, 255)),
-    Icon = "rbxassetid://4483345998",
-    Author = gradient("MadoHub", Color3.fromRGB(0, 255, 0), Color3.fromRGB(0, 200, 255)),
-    Folder = "BreakingBlitz",
-    Size = UDim2.fromOffset(300, 270), -- Mobile friendly
-    Theme = "Dark",
-    Transparent = true, -- ✅ Makes it glass style
-    UserEnabled = true,
-    HasOutline = true
-})
+            Title = "Breaking Blitz",
+            Icon = "rbxassetid://4483345998",
+            Folder = "BreakingBlitz",
+            Size = UDim2.fromOffset(600, 500),
+            Theme = "Dark"
+        })
 
         local Tabs = {}
         Tabs.MainTab = Window:Section({Title = "Free Gamepasses", Opened = true})
         
-        Tabs.FreeGamepasses = Window:Tab({Title = "Free Gamepasses", Icon = "gift"})
+        Tabs.FreeGamepasses = Tabs.MainTab:Tab({Title = "Free Gamepasses", Icon = "gift"})
         
         Tabs.FreeGamepasses:Button({
             Title = "Free Hacker Role",
@@ -455,22 +401,18 @@ else
     
     -- Main Window
     local Window = WindUI:CreateWindow({
-    Title = gradient("Breaking Blitz", Color3.fromRGB(255, 255, 255), Color3.fromRGB(0, 255, 255)),
-    Icon = "rbxassetid://4483345998",
-    Author = gradient("MadoHub", Color3.fromRGB(0, 255, 0), Color3.fromRGB(0, 200, 255)),
-    Folder = "BreakingBlitz",
-    Size = UDim2.fromOffset(300, 270), -- Mobile friendly
-    Theme = "Dark",
-    Transparent = true, -- ✅ Makes it glass style
-    UserEnabled = true,
-    HasOutline = true
-})
+        Title = "Breaking Blitz",
+        Icon = "rbxassetid://4483345998",
+        Folder = "BreakingBlitz",
+        Size = UDim2.fromOffset(600, 500),
+        Theme = "Dark"
+    })
 
     -- Create Tabs
     local Tabs = {}
     
     -- Game Breaking Tab
-    Tabs.GameBreakingTab = Window:Tab({Title = "Game Breaking", Icon = "bomb"})
+    Tabs.GameBreaking = Window:Section({Title = "Game Breaking", Opened = true})
     Tabs.GameBreakingTab = Tabs.GameBreaking:Tab({Title = "Game Breaking", Icon = "bomb"})
     
     Tabs.GameBreakingTab:Paragraph({
@@ -794,7 +736,7 @@ else
     })
 
     -- Overpowered Tab
-    Tabs.OverpoweredTab = Window:Tab({Title = "Overpowered", Icon = "zap"})
+    Tabs.Overpowered = Window:Section({Title = "Overpowered", Opened = true})
     Tabs.OverpoweredTab = Tabs.Overpowered:Tab({Title = "Overpowered", Icon = "zap"})
     
     Tabs.OverpoweredTab:Paragraph({
@@ -1035,7 +977,7 @@ else
     })
 
     -- Teleports Tab
-    Tabs.TeleportsTab = Window:Tab({Title = "Teleports", Icon = "map-pin"})
+    Tabs.Teleports = Window:Section({Title = "Teleports", Opened = true})
     Tabs.TeleportsTab = Tabs.Teleports:Tab({Title = "Teleports", Icon = "map-pin"})
     
     Tabs.TeleportsTab:Button({
@@ -1336,7 +1278,7 @@ else
     })
 
     -- Badges Tab
-    Tabs.BadgesTab = Window:Tab({Title = "Badges", Icon = "award"})
+    Tabs.Badges = Window:Section({Title = "Badges", Opened = true})
     Tabs.BadgesTab = Tabs.Badges:Tab({Title = "Badges", Icon = "award"})
     
     Tabs.BadgesTab:Button({
@@ -1424,7 +1366,7 @@ else
     })
 
     -- Misc Tab
-    Tabs.MiscTab = Window:Tab({Title = "Misc", Icon = "settings"})
+    Tabs.Misc = Window:Section({Title = "Misc", Opened = true})
     Tabs.MiscTab = Tabs.Misc:Tab({Title = "Misc", Icon = "settings"})
     
     Tabs.MiscTab:Slider({
