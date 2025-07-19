@@ -54,7 +54,6 @@ if game.PlaceId ~= 13864667823 then
             Theme = "Dark"
         })
 
-        local Tabs = {}
         Tabs.MainTab = Window:Section({Title = "Free Gamepasses", Opened = true})
         
         Tabs.FreeGamepasses = Tabs.MainTab:Tab({Title = "Free Gamepasses", Icon = "gift"})
