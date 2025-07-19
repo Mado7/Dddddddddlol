@@ -54,7 +54,7 @@ if game.PlaceId ~= 13864667823 then
         })
 
         local Tabs = {}
-        Tabs.MainTab = Window:Section({Title = "Free Gamepasses", Opened = true})
+        Tabs.MainTab = Window:Tab({Title = "Free Gamepasses", Icon = "gift"})
         
         Tabs.FreeGamepasses = Tabs.MainTab:Tab({Title = "Free Gamepasses", Icon = "gift"})
         
@@ -454,7 +454,7 @@ else
     local Tabs = {}
     
     -- Game Breaking Tab
-    Tabs.GameBreaking = Window:Section({Title = "Game Breaking", Opened = true})
+    Tabs.GameBreaking = Window:Tab({Title = "Game Breaking"})
     Tabs.GameBreakingTab = Tabs.GameBreaking:Tab({Title = "Game Breaking", Icon = "bomb"})
     
     Tabs.GameBreakingTab:Paragraph({
@@ -778,7 +778,7 @@ else
     })
 
     -- Overpowered Tab
-    Tabs.Overpowered = Window:Section({Title = "Overpowered", Opened = true})
+    Tabs.Overpowered = Window:Tab({Title = "Overpowered"})
     Tabs.OverpoweredTab = Tabs.Overpowered:Tab({Title = "Overpowered", Icon = "zap"})
     
     Tabs.OverpoweredTab:Paragraph({
@@ -1019,7 +1019,7 @@ else
     })
 
     -- Teleports Tab
-    Tabs.Teleports = Window:Section({Title = "Teleports", Opened = true})
+    Tabs.Teleports = Window:Tab({Title = "Teleports"})
     Tabs.TeleportsTab = Tabs.Teleports:Tab({Title = "Teleports", Icon = "map-pin"})
     
     Tabs.TeleportsTab:Button({
@@ -1160,7 +1160,7 @@ else
     })
 
     -- Humanoid Tab
-    Tabs.Humanoid = Window:Section({Title = "Humanoid", Opened = true})
+    Tabs.Humanoid = Window:Tab({Title = "Humanoid"})
     Tabs.HumanoidTab = Tabs.Humanoid:Tab({Title = "Humanoid", Icon = "user"})
     
     Tabs.HumanoidTab:Slider({
@@ -1251,7 +1251,7 @@ else
     })
 
     -- Combat Tab
-    Tabs.Combat = Window:Section({Title = "Combat", Opened = true})
+    Tabs.Combat = Window:Tab({Title = "Combat"})
     Tabs.CombatTab = Tabs.Combat:Tab({Title = "Combat", Icon = "sword"})
     
     Tabs.CombatTab:Button({
@@ -1320,7 +1320,7 @@ else
     })
 
     -- Badges Tab
-    Tabs.Badges = Window:Section({Title = "Badges", Opened = true})
+    Tabs.Badges = Window:Section({Title = "Badges"})
     Tabs.BadgesTab = Tabs.Badges:Tab({Title = "Badges", Icon = "award"})
     
     Tabs.BadgesTab:Button({
@@ -1408,7 +1408,7 @@ else
     })
 
     -- Misc Tab
-    Tabs.Misc = Window:Section({Title = "Misc", Opened = true})
+    Tabs.Misc = Window:Tab({Title = "Misc"})
     Tabs.MiscTab = Tabs.Misc:Tab({Title = "Misc", Icon = "settings"})
     
     Tabs.MiscTab:Slider({
