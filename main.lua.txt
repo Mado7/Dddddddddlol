@@ -54,7 +54,7 @@ if game.PlaceId ~= 13864667823 then
         })
 
         local Tabs = {}
-        Tabs.MainTab = Window:Tab({Title = "Free Gamepasses", Icon = "gift"})
+        Tabs.MainTab = Window:Section({Title = "Free Gamepasses"})
         
         Tabs.FreeGamepasses = Tabs.MainTab:Tab({Title = "Free Gamepasses", Icon = "gift"})
         
@@ -454,7 +454,7 @@ else
     local Tabs = {}
     
     -- Game Breaking Tab
-    Tabs.GameBreaking = Window:Tab({Title = "Game Breaking"})
+    Tabs.GameBreaking = Window:Section({Title = "Game Breaking", Opened = true})
     Tabs.GameBreakingTab = Tabs.GameBreaking:Tab({Title = "Game Breaking", Icon = "bomb"})
     
     Tabs.GameBreakingTab:Paragraph({
@@ -778,7 +778,7 @@ else
     })
 
     -- Overpowered Tab
-    Tabs.Overpowered = Window:Tab({Title = "Overpowered"})
+    Tabs.Overpowered = Window:Section({Title = "Overpowered"})
     Tabs.OverpoweredTab = Tabs.Overpowered:Tab({Title = "Overpowered", Icon = "zap"})
     
     Tabs.OverpoweredTab:Paragraph({
@@ -1019,7 +1019,7 @@ else
     })
 
     -- Teleports Tab
-    Tabs.Teleports = Window:Tab({Title = "Teleports"})
+    Tabs.Teleports = Window:Section({Title = "Teleports"})
     Tabs.TeleportsTab = Tabs.Teleports:Tab({Title = "Teleports", Icon = "map-pin"})
     
     Tabs.TeleportsTab:Button({
@@ -1160,7 +1160,7 @@ else
     })
 
     -- Humanoid Tab
-    Tabs.Humanoid = Window:Tab({Title = "Humanoid"})
+    Tabs.Humanoid = Window:Section({Title = "Humanoid"})
     Tabs.HumanoidTab = Tabs.Humanoid:Tab({Title = "Humanoid", Icon = "user"})
     
     Tabs.HumanoidTab:Slider({
@@ -1251,7 +1251,7 @@ else
     })
 
     -- Combat Tab
-    Tabs.Combat = Window:Tab({Title = "Combat"})
+    Tabs.Combat = Window:Section({Title = "Combat"})
     Tabs.CombatTab = Tabs.Combat:Tab({Title = "Combat", Icon = "sword"})
     
     Tabs.CombatTab:Button({
@@ -1408,7 +1408,7 @@ else
     })
 
     -- Misc Tab
-    Tabs.Misc = Window:Tab({Title = "Misc"})
+    Tabs.Misc = Window:Section({Title = "Misc"})
     Tabs.MiscTab = Tabs.Misc:Tab({Title = "Misc", Icon = "settings"})
     
     Tabs.MiscTab:Slider({
