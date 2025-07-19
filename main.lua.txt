@@ -78,7 +78,7 @@ if game.PlaceId ~= 13864667823 then
             end
         end
     else
-        game:GetService("Players").LocalPlayer:Kick("Error! Game Not Supported!")
+        game:GetService("Players").LocalPlayer:Kick("MADOHUB: Error! Game Not Supported. If its supported but still shows this please report.")
     end
 else
     -- Floating Part
@@ -511,24 +511,27 @@ else
 
     Tabs.GameBreakingTab:Divider()
     
-    Tabs.GameBreakingTab:Input({
-        Title = "Delete Player's Limbs",
-        Placeholder = "PlayerName",
-        Callback = function(Value)
-            Delete(game:GetService("Workspace"):FindFirstChild(tostring(Value)).LeftHand)
-            Delete(game:GetService("Workspace"):FindFirstChild(tostring(Value)).LeftFoot)
-            Delete(game:GetService("Workspace"):FindFirstChild(tostring(Value)).LeftLowerArm)
-            Delete(game:GetService("Workspace"):FindFirstChild(tostring(Value)).LeftLowerLeg)
-            Delete(game:GetService("Workspace"):FindFirstChild(tostring(Value)).LeftUpperArm)
-            Delete(game:GetService("Workspace"):FindFirstChild(tostring(Value)).LeftUpperLeg)
-            Delete(game:GetService("Workspace"):FindFirstChild(tostring(Value)).RightFoot)
-            Delete(game:GetService("Workspace"):FindFirstChild(tostring(Value)).RightHand)
-            Delete(game:GetService("Workspace"):FindFirstChild(tostring(Value)).RightLowerArm)
-            Delete(game:GetService("Workspace"):FindFirstChild(tostring(Value)).RightLowerLeg)
-            Delete(game:GetService("Workspace"):FindFirstChild(tostring(Value)).RightUpperArm)
-            Delete(game:GetService("Workspace"):FindFirstChild(tostring(Value)).RightUpperLeg)
-        end      
-    })
+Tabs.GameBreakingTab:Input({
+    Title = "Delete Player's Limbs",
+    Placeholder = "PlayerName",
+    Callback = function(Value)
+        local player = game:GetService("Workspace"):FindFirstChild(tostring(Value))
+        if player then
+            local limbs = {
+                "LeftHand", "LeftFoot", "LeftLowerArm", "LeftLowerLeg", 
+                "LeftUpperArm", "LeftUpperLeg", "RightFoot", "RightHand",
+                "RightLowerArm", "RightLowerLeg", "RightUpperArm", "RightUpperLeg"
+            }
+            
+            for _, limbName in pairs(limbs) do
+                local limb = player:FindFirstChild(limbName)
+                if limb then
+                    Delete(limb)
+                end
+            end
+        end
+    end      
+})
 
     Tabs.GameBreakingTab:Button({
         Title = "Delete Other's Limbs",
@@ -749,12 +752,22 @@ else
         end    
     })
 
-    Tabs.GameBreakingTab:Button({
-        Title = "Remove Ice For Everyone",
-        Callback = function()
-            Delete(game:GetService("Workspace").Terrain)
-        end    
-    })
+Tabs.GameBreakingTab:Button({
+    Title = "Remove Ice For Everyone",
+    Callback = function()
+        local terrain = game:GetService("Workspace"):FindFirstChild("Terrain")
+        if terrain then
+            Delete(terrain)
+        else
+            WindUI:Notify({
+                Title = "Error",
+                Content = "Terrain not found!",
+                Icon = "alert-circle",
+                Duration = 3
+            })
+        end
+    end    
+})
 
     Tabs.GameBreakingTab:Button({
         Title = "Remove Hailing For Everyone",
