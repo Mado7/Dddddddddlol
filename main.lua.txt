@@ -515,29 +515,76 @@ end)
         end
     )
 
--- ========== AUTO FARM TAB ==========
+-- ======== BEACH BALL FARM ========
 Tabs.AutoFarm:Section({Title = gradient("BEACH BALL FARM", Color3.fromHex("#FFD700"), Color3.fromHex("#FFA500"))})
+
+local isFarming = false
+local farmDelay = 2.5
+
+local function farmBeachBalls()
+    while isFarming and task.wait() do
+        -- Refresh map reference if needed
+        if not map or not map.Parent then
+            for _, obj in ipairs(Workspace:GetDescendants()) do
+                if obj:IsA("Model") and obj.Name == "CoinContainer" then
+                    map = obj
+                    break
+                end
+            end
+            if not map then continue end
+        end
+
+        -- Process coins
+        for _, coin in ipairs(map:GetChildren()) do
+            if not isFarming then break end
+            
+            if coin:IsA("Part") and coin.Name == "Coin_Server" and coin:GetAttribute("CoinID") == "BeachBall" then
+                local visual = coin:FindFirstChild("CoinVisual")
+                if visual and visual.Transparency < 1 then
+                    -- Disable collision
+                    for _, part in ipairs(LocalPlayer.Character:GetDescendants()) do
+                        if part:IsA("BasePart") then
+                            part.CanCollide = false
+                        end
+                    end
+                    
+                    -- Teleport to coin
+                    humPart.CFrame = coin.CFrame * CFrame.new(0, 6, 0)
+                    task.wait(farmDelay)
+                end
+            end
+        end
+    end
+end
 
 Tabs.AutoFarm:Toggle({
     Title = gradient("Enable Farm", Color3.fromHex("#00FF7F"), Color3.fromHex("#006400")),
     Default = false,
     Callback = function(state)
-        beachBallFarmEnabled = state
+        isFarming = state
         if state then
-            coroutine.wrap(function()
-                while beachBallFarmEnabled and task.wait(1) do
-                    -- Farming logic here (same as previous)
-                end
-            end)()
+            -- Refresh character reference
+            humPart = LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+            if not humPart then
+                WindUI:Notify({
+                    Title = "Error",
+                    Content = "Character not found!",
+                    Icon = "x-circle",
+                    Duration = 3
+                })
+                return
+            end
+            
+            coroutine.wrap(farmBeachBalls)()
         end
     end
 })
 
 Tabs.AutoFarm:Slider({
     Title = "Farm Delay",
-    Value = {Min = 0.3, Max = 5, Default = 2.5},
+    Value = {Min = 0.5, Max = 5, Default = 2.5},
     Callback = function(value)
-        beachBallFarmDelay = value
+        farmDelay = value
     end
 })
 
