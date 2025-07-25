@@ -172,43 +172,75 @@ local Tabs = {
 -- AutoFarm Tab - Beach Ball Farm Section
 Tabs.AutoFarm:Section({Title = gradient("Beach Ball Farm", Color3.fromHex("#00e1ff"), Color3.fromHex("#0066ff"))})
 
--- Warning Label (Red gradient)
-Tabs.AutoFarm:Paragraph(
-    {
-        Title = gradient("WARNING", Color3.fromHex("#ff0000"), Color3.fromHex("#800000")),
-        Desc = gradient("Don't set delay too low (<1s) or you might get kicked! (We will make it better soon but this is the best)", 
-                       Color3.fromHex("#ff5555"), Color3.fromHex("#aa0000")),
-        Color = Color3.fromRGB(255, 100, 100)
-    }
-)
+Tabs.AutoFarm:Paragraph({
+    Title = "NOTE",
+    Desc = "We recommend to not go lower than 1 second or you might get kicked, we will improve this soon as this is the best one actually.",
+    Image = "https://play-lh.googleusercontent.com/7cIIPlWm4m7AGqVpEsIfyL-HW4cQla4ucXnfalMft1TMIYQIlf2vqgmthlZgbNAQoaQ",
+    ImageSize = 42, -- default 30
+    Thumbnail = "https://tr.rbxcdn.com/180DAY-59af3523ad8898216dbe1043788837bf/768/432/Image/Webp/noFilter",
+    ThumbnailSize = 120 -- Thumbnail height
+})
 
--- Enable/Disable Toggle (Green/Red gradient)
+
+-- Toggle for Beach Ball Farm
 Tabs.AutoFarm:Toggle(
     {
-        Title = gradient("Enable Farm", Color3.fromHex("#00ff40"), Color3.fromHex("#006600")),
+        Title = "Enable Beach Ball Farm",
         Default = false,
         Callback = function(state)
             getgenv().farm = state
             if state then
                 WindUI:Notify(
                     {
-                        Title = gradient("Farm Enabled", Color3.fromHex("#00ff40"), Color3.fromHex("#006600")),
-                        Content = "Now farming Beach Balls!",
+                        Title = "Beach Ball Farm",
+                        Content = "Enabled! Farming Beach Balls...",
                         Icon = "check-circle",
                         Duration = 3
                     }
                 )
+                -- Start farming loop
                 coroutine.wrap(function()
                     while getgenv().farm do
-                        -- [Insert your existing farm loop code here]
-                        task.wait(delay)
+                        if (not map) or (not map.Parent) then
+                            -- Search for CoinContainer if not already set
+                            for _, m in ipairs(workspace:GetDescendants()) do
+                                if m:IsA("Model") and m.Name == "CoinContainer" then
+                                    map = m
+                                    break
+                                end
+                            end
+                        end
+                        if map and map.Parent then
+                            for _, coin in ipairs(map:GetChildren()) do
+                                if not getgenv().farm then break end
+                                if coin:IsA("Part") and coin.Name == "Coin_Server" and coin:GetAttribute("CoinID") == "BeachBall" then
+                                    local cv = coin:FindFirstChild("CoinVisual")
+                                    if cv and cv.Transparency ~= 1 then
+                                        if not humPart or not humPart.Parent then
+                                            humPart = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                                            if not humPart then break end
+                                        end
+                                        -- Disable collision for smoother farming
+                                        for _, p in pairs(LocalPlayer.Character:GetChildren()) do
+                                            if p:IsA("BasePart") and p.CanCollide then
+                                                p.CanCollide = false
+                                            end
+                                        end
+                                        -- Teleport above the coin
+                                        humPart.CFrame = coin.CFrame * CFrame.new(0, 6, 0)
+                                        task.wait(delay)
+                                    end
+                                end
+                            end
+                        end
+                        task.wait(1)
                     end
                 end)()
             else
                 WindUI:Notify(
                     {
-                        Title = gradient("Farm Disabled", Color3.fromHex("#ff0000"), Color3.fromHex("#800000")),
-                        Content = "Stopped farming.",
+                        Title = "Beach Ball Farm",
+                        Content = "Disabled.",
                         Icon = "x-circle",
                         Duration = 3
                     }
@@ -218,40 +250,30 @@ Tabs.AutoFarm:Toggle(
     }
 )
 
--- Delay Slider (Blue gradient)
+-- Delay Slider
 Tabs.AutoFarm:Slider(
     {
-        Title = gradient("Farm Delay", Color3.fromHex("#00a2ff"), Color3.fromHex("#003cff")),
+        Title = "Farm Delay (seconds)",
         Value = {Min = 0.1, Max = 5, Default = 2.5},
         Callback = function(value)
             delay = value
-            if value < 0.5 then
-                WindUI:Notify(
-                    {
-                        Title = gradient("WARNING", Color3.fromHex("#ff0000"), Color3.fromHex("#800000")),
-                        Content = "Delay set very low! Risk of kick.",
-                        Icon = "alert-triangle",
-                        Duration = 5
-                    }
-                )
-            end
         end
     }
 )
 
--- Emergency Stop Button (Red gradient with flash effect)
+-- Emergency Stop Button
 Tabs.AutoFarm:Button(
     {
-        Title = gradient("EMERGENCY STOP", Color3.fromHex("#ff0000"), Color3.fromHex("#800000")),
+        Title = "EMERGENCY STOP",
         Callback = function()
             getgenv().farm = false
             WindUI:Notify(
                 {
-                    Title = gradient("FORCE STOPPED", Color3.fromHex("#ff0000"), Color3.fromHex("#800000")),
-                    Content = "Farm beachballs force-stopped!",
-                    Icon = "alert-octagon",
+                    Title = "STOPPED",
+                    Content = "Beach Ball Farm force-disabled!",
+                    Icon = "alert-triangle",
                     Duration = 5,
-                    Color = Color3.fromRGB(255, 50, 50)
+                    Color = Color3.fromRGB(255, 0, 0)
                 }
             )
         end
