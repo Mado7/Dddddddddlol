@@ -183,55 +183,87 @@ Tabs.AutoFarm:Paragraph({
 
 -- Tween speed variable
 local tweenSpeed = 1 -- Default tween speed (lower is faster)
-local antiKickEnabled = true
 local randomDelayRange = {0.1, 0.5} -- Random delay between actions
 local humanizeMovements = true -- Makes movements more natural
 
--- Anti-kick heartbeat
-local lastActionTime = 0
-local function antiKickCheck()
-    if not antiKickEnabled then return end
+-- ===== NEW ANTI-KICK SYSTEM =====
+local AntiKick = {
+    Enabled = true,
+    DeleteKickUI = true,
+    BlockKickRemote = true,
+    Tested = false
+}
+
+-- Function to test the anti-kick
+local function testKick()
+    AntiKick.Tested = false
+    WindUI:Notify({
+        Title = "Anti-Kick Test",
+        Content = "Attempting to kick you in 3 seconds...",
+        Icon = "alert-triangle",
+        Duration = 3
+    })
     
-    -- Simulate human-like pauses
-    if tick() - lastActionTime > 30 then -- Every 30 seconds
-        local pauseTime = math.random(5, 15)/10 -- 0.5-1.5 second pause
-        task.wait(pauseTime)
-        lastActionTime = tick()
+    task.wait(3)
+    
+    -- Simulate a kick attempt
+    game:GetService("Players").LocalPlayer:Kick("Anti-Kick Test - If you see this, the anti-kick failed!")
+    
+    -- If we're still here after 1 second, the test passed
+    task.delay(1, function()
+        if not AntiKick.Tested then
+            AntiKick.Tested = true
+            WindUI:Notify({
+                Title = "Anti-Kick Test",
+                Content = "✅ Test passed! Anti-kick is working properly.",
+                Icon = "check-circle",
+                Duration = 5
+            })
+        end
+    end)
+end
+
+-- Main anti-kick protection
+local function setupAntiKick()
+    -- Delete kick UI when it appears
+    if AntiKick.DeleteKickUI then
+        game:GetService("Players").LocalPlayer.PlayerGui.ChildAdded:Connect(function(child)
+            if child.Name == "KickPrompt" or child:FindFirstChild("Message") then
+                task.wait(0.1) -- Wait a tiny bit to ensure UI is fully loaded
+                child:Destroy()
+                WindUI:Notify({
+                    Title = "Anti-Kick",
+                    Content = "Kick attempt blocked (UI deleted)",
+                    Icon = "shield",
+                    Duration = 3
+                })
+            end
+        end)
     end
-    
-    -- Random mouse movement simulation
-    if math.random(1, 100) <= 10 then -- 10% chance
-        local vim = game:GetService("VirtualInputManager")
-        vim:SendMouseMoveEvent(math.random(0, 1000), math.random(0, 800), game)
+
+    -- Block kick remote events
+    if AntiKick.BlockKickRemote then
+        local oldNamecall
+        oldNamecall = hookmetamethod(game, "__namecall", function(self, ...)
+            local method = getnamecallmethod()
+            if AntiKick.Enabled and (method == "Kick" or method == "kick") and self == game:GetService("Players").LocalPlayer then
+                WindUI:Notify({
+                    Title = "Anti-Kick",
+                    Content = "Kick attempt blocked (remote prevented)",
+                    Icon = "shield",
+                    Duration = 3
+                })
+                return nil
+            end
+            return oldNamecall(self, ...)
+        end)
     end
 end
 
--- Humanized tween function
-local function humanizedTween(part, targetCFrame)
-    local TweenService = game:GetService("TweenService")
-    
-    if humanizeMovements then
-        -- Add slight randomness to movement
-        local offset = Vector3.new(
-            (math.random() - 0.5) * 0.5, -- -0.25 to 0.25
-            (math.random() - 0.5) * 0.3, -- -0.15 to 0.15
-            (math.random() - 0.5) * 0.5  -- -0.25 to 0.25
-        )
-        targetCFrame = targetCFrame + offset
-    end
-    
-    local tweenInfo = TweenInfo.new(
-        tweenSpeed * (humanizeMovements and math.random(8, 12)/10 or 1), -- 0.8-1.2x speed variation
-        Enum.EasingStyle.Quad, -- More natural easing
-        Enum.EasingDirection.InOut,
-        0, false, 0
-    )
-    
-    local tween = TweenService:Create(part, tweenInfo, {CFrame = targetCFrame})
-    tween:Play()
-    return tween
-end
+-- Initialize the anti-kick
+setupAntiKick()
 
+-- ===== BEACH BALL FARM =====
 -- Toggle for Beach Ball Farm
 Tabs.AutoFarm:Toggle(
     {
@@ -251,8 +283,6 @@ Tabs.AutoFarm:Toggle(
                 -- Start farming loop
                 coroutine.wrap(function()
                     while getgenv().farm do
-                        antiKickCheck()
-                        
                         if (not map) or (not map.Parent) then
                             -- Search for CoinContainer if not already set
                             for _, m in ipairs(workspace:GetDescendants()) do
@@ -292,7 +322,6 @@ Tabs.AutoFarm:Toggle(
                                         local startTime = tick()
                                         while tick() - startTime < tweenSpeed + randomDelay and getgenv().farm do
                                             task.wait()
-                                            antiKickCheck()
                                         end
                                     end
                                 end
@@ -328,39 +357,42 @@ Tabs.AutoFarm:Slider(
 )
 
 -- Anti-Kick Settings Section
-Tabs.AutoFarm:Section({Title = gradient("Anti-Kick Settings", Color3.fromHex("#ff0000"), Color3.fromHex("#ff8800"))})
+Tabs.AutoFarm:Section({Title = gradient("Advanced Anti-Kick", Color3.fromHex("#ff0000"), Color3.fromHex("#ff8800"))})
 
-Tabs.AutoFarm:Toggle(
-    {
-        Title = "Enable Anti-Kick",
-        Default = true,
-        Callback = function(state)
-            antiKickEnabled = state
-        end
-    }
-)
+Tabs.AutoFarm:Toggle({
+    Title = "Enable Anti-Kick",
+    Default = true,
+    Callback = function(state)
+        AntiKick.Enabled = state
+    end
+})
 
-Tabs.AutoFarm:Toggle(
-    {
-        Title = "Humanize Movements",
-        Default = true,
-        Callback = function(state)
-            humanizeMovements = state
-        end
-    }
-)
+Tabs.AutoFarm:Toggle({
+    Title = "Delete Kick UI",
+    Default = true,
+    Callback = function(state)
+        AntiKick.DeleteKickUI = state
+    end
+})
 
-Tabs.AutoFarm:Slider(
-    {
-        Title = "Random Delay Range",
-        Description = "Adds randomness between actions",
-        Value = {Min = 0.1, Max = 1, Default = 0.3},
-        Double = true,
-        Callback = function(min, max)
-            randomDelayRange = {min, max}
-        end
-    }
-)
+Tabs.AutoFarm:Toggle({
+    Title = "Block Kick Remotes",
+    Default = true,
+    Callback = function(state)
+        AntiKick.BlockKickRemote = state
+    end
+})
+
+Tabs.AutoFarm:Button({
+    Title = "TEST ANTI-KICK",
+    Callback = testKick
+})
+
+Tabs.AutoFarm:Paragraph({
+    Title = "Anti-Kick Status",
+    Desc = AntiKick.Tested and "✅ Last test passed - Anti-kick is working" or "⚠️ Not tested yet",
+    Image = AntiKick.Tested and "check-circle" or "alert-circle"
+})
 
 -- Emergency Stop Button
 Tabs.AutoFarm:Button(
