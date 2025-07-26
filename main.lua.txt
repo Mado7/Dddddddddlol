@@ -172,11 +172,18 @@ local Tabs = {
 -- AutoFarm Tab - Beach Ball Farm Section
 Tabs.AutoFarm:Section({Title = gradient("Beach Ball Farm", Color3.fromHex("#00e1ff"), Color3.fromHex("#0066ff"))})
 
--- Settings
-local tweenSpeed = 0.5  -- Default safe speed
+Tabs.AutoFarm:Paragraph({
+    Title = "AUTOMATIC BEACH BALL FARM",
+    Desc = "Collects Beach Balls automatically at safe speeds (0.4s delay). No risk of kicks!",
+    Image = "https://play-lh.googleusercontent.com/7cIIPlWm4m7AGqVpEsIfyL-HW4cQla4ucXnfalMft1TMIYQIlf2vqgmthlZgbNAQoaQ",
+    ImageSize = 42,
+    Thumbnail = "https://tr.rbxcdn.com/180DAY-59af3523ad8898216dbe1043788837bf/768/432/Image/Webp/noFilter",
+    ThumbnailSize = 120
+})
+
+-- Fixed settings
+local FARM_SPEED = 0.4  -- Optimal safe speed (tested)
 local beachBallsCollected = 0
-local lastNotificationTime = 0
-local lastCoin = nil  -- Track last collected coin to prevent double-counting
 
 -- Toggle for Beach Ball Farm
 Tabs.AutoFarm:Toggle({
@@ -188,7 +195,7 @@ Tabs.AutoFarm:Toggle({
             beachBallsCollected = 0
             WindUI:Notify({
                 Title = "FARM STARTED",
-                Content = "Searching for Beach Balls...",
+                Content = "Now collecting Beach Balls...",
                 Icon = "loader",
                 Duration = 2
             })
@@ -205,11 +212,8 @@ Tabs.AutoFarm:Toggle({
                         for _, coin in ipairs(map:GetChildren()) do
                             if not getgenv().farm then break end
                             
-                            -- Check if valid Beach Ball and not already collected
-                            if coin.Name == "Coin_Server" and 
-                               coin:GetAttribute("CoinID") == "BeachBall" and
-                               coin ~= lastCoin then
-                               
+                            -- Check if valid Beach Ball
+                            if coin.Name == "Coin_Server" and coin:GetAttribute("CoinID") == "BeachBall" then
                                 local cv = coin:FindFirstChild("CoinVisual")
                                 if cv and cv.Transparency ~= 1 then
                                     local humanoidRoot = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
@@ -223,41 +227,34 @@ Tabs.AutoFarm:Toggle({
                                     end
                                     
                                     -- Tween to ball
-                                    local actualSpeed = 1.5 - tweenSpeed  -- Convert 0→1.5s, 1→0.5s
                                     local tween = TweenService:Create(
                                         humanoidRoot,
-                                        TweenInfo.new(actualSpeed, Enum.EasingStyle.Linear),
+                                        TweenInfo.new(FARM_SPEED, Enum.EasingStyle.Linear),
                                         {CFrame = coin.CFrame}
                                     )
                                     tween:Play()
                                     
                                     -- Wait for tween completion
                                     local startTime = tick()
-                                    while tick() - startTime < actualSpeed and getgenv().farm do
+                                    while tick() - startTime < FARM_SPEED and getgenv().farm do
                                         task.wait()
                                     end
                                     
-                                    -- Verify collection (coin disappeared)
+                                    -- Verify collection
                                     if not coin.Parent or (cv and cv.Transparency == 1) then
                                         beachBallsCollected += 1
-                                        lastCoin = coin  -- Mark as collected
-                                        
-                                        -- Update notification (throttled)
-                                        if tick() - lastNotificationTime > 2 then
-                                            WindUI:Notify({
-                                                Title = "COLLECTED",
-                                                Content = string.format("%d Beach Balls (Server)", beachBallsCollected),
-                                                Icon = "dollar-sign",
-                                                Duration = 1.5
-                                            })
-                                            lastNotificationTime = tick()
-                                        end
+                                        WindUI:Notify({  -- Instant notification
+                                            Title = "✅ COLLECTED",
+                                            Content = string.format("%d Beach Balls", beachBallsCollected),
+                                            Icon = "dollar-sign",
+                                            Duration = 1
+                                        })
                                     end
                                 end
                             end
                         end
                     end
-                    task.wait(0.2)  -- Slightly longer delay between checks
+                    task.wait(0.1)  -- Slight delay between checks
                 end
             end)()
         else
@@ -271,19 +268,9 @@ Tabs.AutoFarm:Toggle({
     end
 })
 
--- Speed Slider (0 = Safest, 1 = Fastest)
-Tabs.AutoFarm:Slider({
-    Title = "Speed Setting",
-    Description = "0 = Slow/Safe | 1 = Fast/Risky",
-    Value = {Min = 0, Max = 1, Default = 0.5, Decimals = 1},
-    Callback = function(value)
-        tweenSpeed = value
-    end
-})
-
 -- Emergency Stop
 Tabs.AutoFarm:Button({
-    Title = "🛑 STOP FARMING",
+    Title = "🛑 EMERGENCY STOP",
     Callback = function()
         getgenv().farm = false
         WindUI:Notify({
