@@ -174,15 +174,15 @@ Tabs.AutoFarm:Section({Title = gradient("Beach Ball Farm", Color3.fromHex("#00e1
 
 Tabs.AutoFarm:Paragraph({
     Title = "NOTE",
-    Desc = "Slider position: Right (higher) = Faster movement. Recommended range: 1-3.",
+    Desc = "Higher values = Faster movement. Tweening makes movement smoother and less detectable.",
     Image = "https://play-lh.googleusercontent.com/7cIIPlWm4m7AGqVpEsIfyL-HW4cQla4ucXnfalMft1TMIYQIlf2vqgmthlZgbNAQoaQ",
     ImageSize = 42,
     Thumbnail = "https://tr.rbxcdn.com/180DAY-59af3523ad8898216dbe1043788837bf/768/432/Image/Webp/noFilter",
     ThumbnailSize = 120
 })
 
--- Tween speed variable (higher value = faster movement)
-local tweenSpeed = 1 -- Default speed (1-3 scale)
+-- Tween speed variable (higher = faster)
+local tweenSpeed = 1 -- Default speed (1 = fastest, 3 = slowest)
 
 -- Toggle for Beach Ball Farm
 Tabs.AutoFarm:Toggle(
@@ -195,7 +195,7 @@ Tabs.AutoFarm:Toggle(
                 WindUI:Notify(
                     {
                         Title = "Beach Ball Farm",
-                        Content = string.format("Enabled! Farming Beach Balls at speed: %d/3", tweenSpeed),
+                        Content = string.format("Enabled! Farming at speed level: %.1f", tweenSpeed),
                         Icon = "check-circle",
                         Duration = 3
                     }
@@ -237,12 +237,12 @@ Tabs.AutoFarm:Toggle(
                                         local targetCFrame = coin.CFrame * CFrame.new(0, 6, 0)
                                         
                                         -- Convert speed to duration (higher speed = shorter duration)
-                                        local duration = 4 - tweenSpeed -- 1=3s, 2=2s, 3=1s
-                                        duration = math.max(0.5, duration) -- Never go below 0.5s
+                                        local actualDuration = 3.1 - tweenSpeed -- Inverted logic (1=2.1s, 2=1.1s, 3=0.1s)
+                                        actualDuration = math.max(0.1, actualDuration) -- Never go below 0.1s
                                         
                                         -- Create tween info
                                         local tweenInfo = TweenInfo.new(
-                                            duration, -- Time
+                                            actualDuration, -- Time
                                             Enum.EasingStyle.Linear, -- Easing style
                                             Enum.EasingDirection.InOut, -- Easing direction
                                             0, -- Repeat count
@@ -256,7 +256,7 @@ Tabs.AutoFarm:Toggle(
                                         
                                         -- Wait for tween to complete or until delay time
                                         local startTime = tick()
-                                        while tick() - startTime < duration and getgenv().farm do
+                                        while tick() - startTime < actualDuration and getgenv().farm do
                                             task.wait()
                                         end
                                     end
@@ -284,14 +284,14 @@ Tabs.AutoFarm:Toggle(
 Tabs.AutoFarm:Slider(
     {
         Title = "Tween Speed (1-3)",
-        Description = "Right (higher) = Faster movement",
-        Value = {Min = 1, Max = 3, Default = 1, Decimals = 0},
+        Description = "Higher = Faster movement",
+        Value = {Min = 1, Max = 3, Default = 1, Decimals = 1},
         Callback = function(value)
             tweenSpeed = value
             WindUI:Notify(
                 {
                     Title = "Speed Updated",
-                    Content = string.format("Tween speed set to: %d/3 (higher = faster)", tweenSpeed),
+                    Content = string.format("Speed set to: %.1f (higher = faster)", tweenSpeed),
                     Icon = "gauge",
                     Duration = 2
                 }
