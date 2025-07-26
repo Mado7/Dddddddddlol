@@ -169,18 +169,68 @@ local Tabs = {
 }  
 
 
--- AutoFarm Tab - Beach Ball Farm Section
+-- AutoFarm Tab - Beach Ball Farm Section with Anti-Kick
 Tabs.AutoFarm:Section({Title = gradient("Beach Ball Farm", Color3.fromHex("#00e1ff"), Color3.fromHex("#0066ff"))})
 
 Tabs.AutoFarm:Paragraph({
     Title = "NOTE",
-    Desc = "We recommend to not go lower than 1 second or you might get kicked, we will improve this soon as this is the best one actually.",
+    Desc = "Anti-kick measures implemented. Use reasonable tween speeds (0.5-2s) to avoid detection.",
     Image = "https://play-lh.googleusercontent.com/7cIIPlWm4m7AGqVpEsIfyL-HW4cQla4ucXnfalMft1TMIYQIlf2vqgmthlZgbNAQoaQ",
-    ImageSize = 42, -- default 30
+    ImageSize = 42,
     Thumbnail = "https://tr.rbxcdn.com/180DAY-59af3523ad8898216dbe1043788837bf/768/432/Image/Webp/noFilter",
-    ThumbnailSize = 120 -- Thumbnail height
+    ThumbnailSize = 120
 })
 
+-- Tween speed variable
+local tweenSpeed = 1 -- Default tween speed (lower is faster)
+local antiKickEnabled = true
+local randomDelayRange = {0.1, 0.5} -- Random delay between actions
+local humanizeMovements = true -- Makes movements more natural
+
+-- Anti-kick heartbeat
+local lastActionTime = 0
+local function antiKickCheck()
+    if not antiKickEnabled then return end
+    
+    -- Simulate human-like pauses
+    if tick() - lastActionTime > 30 then -- Every 30 seconds
+        local pauseTime = math.random(5, 15)/10 -- 0.5-1.5 second pause
+        task.wait(pauseTime)
+        lastActionTime = tick()
+    end
+    
+    -- Random mouse movement simulation
+    if math.random(1, 100) <= 10 then -- 10% chance
+        local vim = game:GetService("VirtualInputManager")
+        vim:SendMouseMoveEvent(math.random(0, 1000), math.random(0, 800), game)
+    end
+end
+
+-- Humanized tween function
+local function humanizedTween(part, targetCFrame)
+    local TweenService = game:GetService("TweenService")
+    
+    if humanizeMovements then
+        -- Add slight randomness to movement
+        local offset = Vector3.new(
+            (math.random() - 0.5) * 0.5, -- -0.25 to 0.25
+            (math.random() - 0.5) * 0.3, -- -0.15 to 0.15
+            (math.random() - 0.5) * 0.5  -- -0.25 to 0.25
+        )
+        targetCFrame = targetCFrame + offset
+    end
+    
+    local tweenInfo = TweenInfo.new(
+        tweenSpeed * (humanizeMovements and math.random(8, 12)/10 or 1), -- 0.8-1.2x speed variation
+        Enum.EasingStyle.Quad, -- More natural easing
+        Enum.EasingDirection.InOut,
+        0, false, 0
+    )
+    
+    local tween = TweenService:Create(part, tweenInfo, {CFrame = targetCFrame})
+    tween:Play()
+    return tween
+end
 
 -- Toggle for Beach Ball Farm
 Tabs.AutoFarm:Toggle(
@@ -193,7 +243,7 @@ Tabs.AutoFarm:Toggle(
                 WindUI:Notify(
                     {
                         Title = "Beach Ball Farm",
-                        Content = "Enabled! Farming Beach Balls...",
+                        Content = "Enabled with anti-kick protection!",
                         Icon = "check-circle",
                         Duration = 3
                     }
@@ -201,6 +251,8 @@ Tabs.AutoFarm:Toggle(
                 -- Start farming loop
                 coroutine.wrap(function()
                     while getgenv().farm do
+                        antiKickCheck()
+                        
                         if (not map) or (not map.Parent) then
                             -- Search for CoinContainer if not already set
                             for _, m in ipairs(workspace:GetDescendants()) do
@@ -210,6 +262,7 @@ Tabs.AutoFarm:Toggle(
                                 end
                             end
                         end
+                        
                         if map and map.Parent then
                             for _, coin in ipairs(map:GetChildren()) do
                                 if not getgenv().farm then break end
@@ -220,20 +273,32 @@ Tabs.AutoFarm:Toggle(
                                             humPart = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
                                             if not humPart then break end
                                         end
+                                        
                                         -- Disable collision for smoother farming
                                         for _, p in pairs(LocalPlayer.Character:GetChildren()) do
                                             if p:IsA("BasePart") and p.CanCollide then
                                                 p.CanCollide = false
                                             end
                                         end
-                                        -- Teleport above the coin
-                                        humPart.CFrame = coin.CFrame * CFrame.new(0, 6, 0)
-                                        task.wait(delay)
+                                        
+                                        -- Calculate target position (above the coin)
+                                        local targetCFrame = coin.CFrame * CFrame.new(0, 6, 0)
+                                        
+                                        -- Create and play humanized tween
+                                        local tween = humanizedTween(humPart, targetCFrame)
+                                        
+                                        -- Wait with random delay
+                                        local randomDelay = math.random(randomDelayRange[1] * 100, randomDelayRange[2] * 100)/100
+                                        local startTime = tick()
+                                        while tick() - startTime < tweenSpeed + randomDelay and getgenv().farm do
+                                            task.wait()
+                                            antiKickCheck()
+                                        end
                                     end
                                 end
                             end
                         end
-                        task.wait(1)
+                        task.wait(math.random(5, 15)/10) -- Random wait between checks
                     end
                 end)()
             else
@@ -250,13 +315,49 @@ Tabs.AutoFarm:Toggle(
     }
 )
 
--- Delay Slider
+-- Tween Speed Slider
 Tabs.AutoFarm:Slider(
     {
-        Title = "Farm Delay (seconds)",
-        Value = {Min = 0.1, Max = 5, Default = 2.5},
+        Title = "Tween Speed (seconds)",
+        Description = "Recommended: 0.7-1.5 for safety",
+        Value = {Min = 0.3, Max = 3, Default = 1},
         Callback = function(value)
-            delay = value
+            tweenSpeed = value
+        end
+    }
+)
+
+-- Anti-Kick Settings Section
+Tabs.AutoFarm:Section({Title = gradient("Anti-Kick Settings", Color3.fromHex("#ff0000"), Color3.fromHex("#ff8800"))})
+
+Tabs.AutoFarm:Toggle(
+    {
+        Title = "Enable Anti-Kick",
+        Default = true,
+        Callback = function(state)
+            antiKickEnabled = state
+        end
+    }
+)
+
+Tabs.AutoFarm:Toggle(
+    {
+        Title = "Humanize Movements",
+        Default = true,
+        Callback = function(state)
+            humanizeMovements = state
+        end
+    }
+)
+
+Tabs.AutoFarm:Slider(
+    {
+        Title = "Random Delay Range",
+        Description = "Adds randomness between actions",
+        Value = {Min = 0.1, Max = 1, Default = 0.3},
+        Double = true,
+        Callback = function(min, max)
+            randomDelayRange = {min, max}
         end
     }
 )
