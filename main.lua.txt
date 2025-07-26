@@ -186,7 +186,32 @@ local tweenSpeed = 1 -- Default tween speed (lower is faster)
 local randomDelayRange = {0.1, 0.5} -- Random delay between actions
 local humanizeMovements = true -- Makes movements more natural
 
--- ===== NEW ANTI-KICK SYSTEM =====
+-- Improved tween function
+local function humanizedTween(part, targetCFrame)
+    local TweenService = game:GetService("TweenService")
+    
+    if humanizeMovements then
+        local offset = Vector3.new(
+            (math.random() - 0.5) * 0.5,
+            (math.random() - 0.5) * 0.3,
+            (math.random() - 0.5) * 0.5
+        )
+        targetCFrame = targetCFrame + offset
+    end
+    
+    local tweenInfo = TweenInfo.new(
+        tweenSpeed * (humanizeMovements and math.random(8, 12)/10 or 1),
+        Enum.EasingStyle.Quad,
+        Enum.EasingDirection.InOut,
+        0, false, 0
+    )
+    
+    local tween = TweenService:Create(part, tweenInfo, {CFrame = targetCFrame})
+    tween:Play()
+    return tween
+end
+
+-- Anti-Kick System
 local AntiKick = {
     Enabled = true,
     DeleteKickUI = true,
@@ -194,7 +219,6 @@ local AntiKick = {
     Tested = false
 }
 
--- Function to test the anti-kick
 local function testKick()
     AntiKick.Tested = false
     WindUI:Notify({
@@ -206,10 +230,8 @@ local function testKick()
     
     task.wait(3)
     
-    -- Simulate a kick attempt
     game:GetService("Players").LocalPlayer:Kick("Anti-Kick Test - If you see this, the anti-kick failed!")
     
-    -- If we're still here after 1 second, the test passed
     task.delay(1, function()
         if not AntiKick.Tested then
             AntiKick.Tested = true
@@ -223,13 +245,11 @@ local function testKick()
     end)
 end
 
--- Main anti-kick protection
 local function setupAntiKick()
-    -- Delete kick UI when it appears
     if AntiKick.DeleteKickUI then
         game:GetService("Players").LocalPlayer.PlayerGui.ChildAdded:Connect(function(child)
             if child.Name == "KickPrompt" or child:FindFirstChild("Message") then
-                task.wait(0.1) -- Wait a tiny bit to ensure UI is fully loaded
+                task.wait(0.1)
                 child:Destroy()
                 WindUI:Notify({
                     Title = "Anti-Kick",
@@ -241,7 +261,6 @@ local function setupAntiKick()
         end)
     end
 
-    -- Block kick remote events
     if AntiKick.BlockKickRemote then
         local oldNamecall
         oldNamecall = hookmetamethod(game, "__namecall", function(self, ...)
@@ -256,15 +275,13 @@ local function setupAntiKick()
                 return nil
             end
             return oldNamecall(self, ...)
-        end)
+        end
     end
 end
 
--- Initialize the anti-kick
 setupAntiKick()
 
--- ===== BEACH BALL FARM =====
--- Toggle for Beach Ball Farm
+-- Beach Ball Farm Main Function
 Tabs.AutoFarm:Toggle(
     {
         Title = "Enable Beach Ball Farm",
@@ -280,11 +297,9 @@ Tabs.AutoFarm:Toggle(
                         Duration = 3
                     }
                 )
-                -- Start farming loop
                 coroutine.wrap(function()
                     while getgenv().farm do
-                        if (not map) or (not map.Parent) then
-                            -- Search for CoinContainer if not already set
+                        if not map or not map.Parent then
                             for _, m in ipairs(workspace:GetDescendants()) do
                                 if m:IsA("Model") and m.Name == "CoinContainer" then
                                     map = m
@@ -304,20 +319,14 @@ Tabs.AutoFarm:Toggle(
                                             if not humPart then break end
                                         end
                                         
-                                        -- Disable collision for smoother farming
                                         for _, p in pairs(LocalPlayer.Character:GetChildren()) do
                                             if p:IsA("BasePart") and p.CanCollide then
                                                 p.CanCollide = false
                                             end
                                         end
                                         
-                                        -- Calculate target position (above the coin)
                                         local targetCFrame = coin.CFrame * CFrame.new(0, 6, 0)
-                                        
-                                        -- Create and play humanized tween
                                         local tween = humanizedTween(humPart, targetCFrame)
-                                        
-                                        -- Wait with random delay
                                         local randomDelay = math.random(randomDelayRange[1] * 100, randomDelayRange[2] * 100)/100
                                         local startTime = tick()
                                         while tick() - startTime < tweenSpeed + randomDelay and getgenv().farm do
@@ -327,7 +336,7 @@ Tabs.AutoFarm:Toggle(
                                 end
                             end
                         end
-                        task.wait(math.random(5, 15)/10) -- Random wait between checks
+                        task.wait(math.random(5, 15)/10)
                     end
                 end)()
             else
@@ -344,7 +353,7 @@ Tabs.AutoFarm:Toggle(
     }
 )
 
--- Tween Speed Slider
+-- Settings
 Tabs.AutoFarm:Slider(
     {
         Title = "Tween Speed (seconds)",
@@ -356,7 +365,6 @@ Tabs.AutoFarm:Slider(
     }
 )
 
--- Anti-Kick Settings Section
 Tabs.AutoFarm:Section({Title = gradient("Advanced Anti-Kick", Color3.fromHex("#ff0000"), Color3.fromHex("#ff8800"))})
 
 Tabs.AutoFarm:Toggle({
@@ -394,7 +402,6 @@ Tabs.AutoFarm:Paragraph({
     Image = AntiKick.Tested and "check-circle" or "alert-circle"
 })
 
--- Emergency Stop Button
 Tabs.AutoFarm:Button(
     {
         Title = "EMERGENCY STOP",
