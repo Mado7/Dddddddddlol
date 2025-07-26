@@ -174,15 +174,20 @@ Tabs.AutoFarm:Section({Title = gradient("Beach Ball Farm", Color3.fromHex("#00e1
 
 Tabs.AutoFarm:Paragraph({
     Title = "NOTE",
-    Desc = "Higher values = Faster movement. Tweening makes movement smoother and less detectable.",
+    Desc = "Higher slider values = faster movement. Recommended range: 1.5-3 (fast), 0.5-1 (slow). Tweening makes movement smoother.",
     Image = "https://play-lh.googleusercontent.com/7cIIPlWm4m7AGqVpEsIfyL-HW4cQla4ucXnfalMft1TMIYQIlf2vqgmthlZgbNAQoaQ",
     ImageSize = 42,
     Thumbnail = "https://tr.rbxcdn.com/180DAY-59af3523ad8898216dbe1043788837bf/768/432/Image/Webp/noFilter",
     ThumbnailSize = 120
 })
 
--- Tween speed variable (higher = faster)
-local tweenSpeed = 1 -- Default speed (1 = fastest, 3 = slowest)
+-- Tween speed variables (INVERTED: Higher slider = faster)
+local maxTweenSpeed = 3  -- Slowest possible (when slider is at MIN)
+local minTweenSpeed = 0.1  -- Fastest possible (when slider is at MAX)
+local tweenSpeed = 1  -- Default (middle)
+
+-- Height offset for farming (prevents clipping)
+local heightOffset = 6
 
 -- Toggle for Beach Ball Farm
 Tabs.AutoFarm:Toggle(
@@ -195,7 +200,7 @@ Tabs.AutoFarm:Toggle(
                 WindUI:Notify(
                     {
                         Title = "Beach Ball Farm",
-                        Content = string.format("Enabled! Farming at speed level: %.1f", tweenSpeed),
+                        Content = "Enabled! Farming with tweening...",
                         Icon = "check-circle",
                         Duration = 3
                     }
@@ -206,7 +211,7 @@ Tabs.AutoFarm:Toggle(
                     
                     while getgenv().farm do
                         if (not map) or (not map.Parent) then
-                            -- Search for CoinContainer if not already set
+                            -- Find CoinContainer if not set
                             for _, m in ipairs(workspace:GetDescendants()) do
                                 if m:IsA("Model") and m.Name == "CoinContainer" then
                                     map = m
@@ -226,44 +231,38 @@ Tabs.AutoFarm:Toggle(
                                             if not humPart then break end
                                         end
                                         
-                                        -- Disable collision for smoother farming
+                                        -- Disable collision for smoother movement
                                         for _, p in pairs(LocalPlayer.Character:GetChildren()) do
                                             if p:IsA("BasePart") and p.CanCollide then
                                                 p.CanCollide = false
                                             end
                                         end
                                         
-                                        -- Calculate target position (above the coin)
-                                        local targetCFrame = coin.CFrame * CFrame.new(0, 6, 0)
+                                        -- Target position (above coin)
+                                        local targetCFrame = coin.CFrame * CFrame.new(0, heightOffset, 0)
                                         
-                                        -- Convert speed to duration (higher speed = shorter duration)
-                                        local actualDuration = 3.1 - tweenSpeed -- Inverted logic (1=2.1s, 2=1.1s, 3=0.1s)
-                                        actualDuration = math.max(0.1, actualDuration) -- Never go below 0.1s
-                                        
-                                        -- Create tween info
-                                        local tweenInfo = TweenInfo.new(
-                                            actualDuration, -- Time
-                                            Enum.EasingStyle.Linear, -- Easing style
-                                            Enum.EasingDirection.InOut, -- Easing direction
-                                            0, -- Repeat count
-                                            false, -- Reverses
-                                            0 -- Delay time
+                                        -- Create and play tween (using INVERTED speed)
+                                        local tween = TweenService:Create(
+                                            humPart,
+                                            TweenInfo.new(
+                                                tweenSpeed,  -- Duration (higher = slower)
+                                                Enum.EasingStyle.Linear,
+                                                Enum.EasingDirection.InOut
+                                            ),
+                                            {CFrame = targetCFrame}
                                         )
-                                        
-                                        -- Create and play tween
-                                        local tween = TweenService:Create(humPart, tweenInfo, {CFrame = targetCFrame})
                                         tween:Play()
                                         
-                                        -- Wait for tween to complete or until delay time
+                                        -- Wait for tween to complete
                                         local startTime = tick()
-                                        while tick() - startTime < actualDuration and getgenv().farm do
+                                        while tick() - startTime < tweenSpeed and getgenv().farm do
                                             task.wait()
                                         end
                                     end
                                 end
                             end
                         end
-                        task.wait(0.1) -- Small wait between checks
+                        task.wait(0.1)
                     end
                 end)()
             else
@@ -280,36 +279,41 @@ Tabs.AutoFarm:Toggle(
     }
 )
 
--- Tween Speed Slider (higher = faster)
+-- INVERTED Tween Speed Slider (Higher slider = faster)
 Tabs.AutoFarm:Slider(
     {
-        Title = "Tween Speed (1-3)",
+        Title = "Tween Speed (Inverted)",
         Description = "Higher = Faster movement",
-        Value = {Min = 1, Max = 3, Default = 1, Decimals = 1},
+        Value = {Min = minTweenSpeed, Max = maxTweenSpeed, Default = 1},
         Callback = function(value)
-            tweenSpeed = value
-            WindUI:Notify(
-                {
-                    Title = "Speed Updated",
-                    Content = string.format("Speed set to: %.1f (higher = faster)", tweenSpeed),
-                    Icon = "gauge",
-                    Duration = 2
-                }
-            )
+            -- Invert the value (slider 0.1 → tweenSpeed=3, slider 3 → tweenSpeed=0.1)
+            tweenSpeed = maxTweenSpeed + minTweenSpeed - value
         end
     }
 )
 
--- Emergency Stop Button
+-- Height Offset Slider (Optional)
+Tabs.AutoFarm:Slider(
+    {
+        Title = "Height Offset",
+        Description = "Distance above the beach ball",
+        Value = {Min = 3, Max = 10, Default = 6},
+        Callback = function(value)
+            heightOffset = value
+        end
+    }
+)
+
+-- Emergency Stop
 Tabs.AutoFarm:Button(
     {
-        Title = "EMERGENCY STOP",
+        Title = "🛑 EMERGENCY STOP",
         Callback = function()
             getgenv().farm = false
             WindUI:Notify(
                 {
                     Title = "STOPPED",
-                    Content = "Beach Ball Farm force-disabled!",
+                    Content = "Beach Ball Farm disabled!",
                     Icon = "alert-triangle",
                     Duration = 5,
                     Color = Color3.fromRGB(255, 0, 0)
