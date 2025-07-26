@@ -174,13 +174,12 @@ Tabs.AutoFarm:Section({Title = gradient("Beach Ball Farm", Color3.fromHex("#00e1
 
 Tabs.AutoFarm:Paragraph({
     Title = "SAFE FARMING",
-    Desc = "0 = Slowest (Safest), 1 = Fastest (Risky). Stay near 0.5 for best results.",
+    Desc = "Using ultra-slow movement for maximum safety",
     Image = "https://play-lh.googleusercontent.com/7cIIPlWm4m7AGqVpEsIfyL-HW4cQla4ucXnfalMft1TMIYQIlf2vqgmthlZgbNAQoaQ",
     ImageSize = 42
 })
 
 -- Settings
-local tweenSpeed = 0.5  -- Default safe speed (middle ground)
 local beachBallsCollected = 0
 local lastNotificationTime = 0
 
@@ -194,7 +193,7 @@ Tabs.AutoFarm:Toggle({
             beachBallsCollected = 0  -- Reset counter
             WindUI:Notify({
                 Title = "FARM STARTED",
-                Content = "Collecting Beach Balls...",
+                Content = "Slowly collecting Beach Balls...",
                 Icon = "loader",
                 Duration = 2
             })
@@ -221,20 +220,17 @@ Tabs.AutoFarm:Toggle({
                                     end
                                 end
                                 
-                                -- Calculate safe speed (inverted: 0 = slowest, 1 = fastest)
-                                local actualSpeed = 1.5 - tweenSpeed  -- Converts 0→1.5s, 1→0.5s
-                                
-                                -- Tween to ball
+                                -- Very slow tween (3 seconds duration)
                                 local tween = TweenService:Create(
                                     humanoidRoot,
-                                    TweenInfo.new(actualSpeed, Enum.EasingStyle.Linear),
+                                    TweenInfo.new(3, Enum.EasingStyle.Linear),
                                     {CFrame = coin.CFrame}
                                 )
                                 tween:Play()
                                 
                                 -- Wait for collection
                                 local startTime = tick()
-                                while tick() - startTime < actualSpeed and getgenv().farm do
+                                while tick() - startTime < 3 and getgenv().farm do
                                     task.wait()
                                 end
                                 
@@ -263,16 +259,6 @@ Tabs.AutoFarm:Toggle({
                 Duration = 3
             })
         end
-    end
-})
-
--- Speed Slider (0 = Safest, 1 = Fastest)
-Tabs.AutoFarm:Slider({
-    Title = "Speed Setting",
-    Description = "0 = Slow/Safe, 1 = Fast/Risky",
-    Value = {Min = 0, Max = 1, Default = 0.5, Decimals = 1},
-    Callback = function(value)
-        tweenSpeed = value
     end
 })
 
