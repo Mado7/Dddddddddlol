@@ -169,12 +169,12 @@ local Tabs = {
 }  
 
 
--- AutoFarm Tab - Beach Ball Farm Section with Anti-Kick
+-- AutoFarm Tab - Beach Ball Farm Section
 Tabs.AutoFarm:Section({Title = gradient("Beach Ball Farm", Color3.fromHex("#00e1ff"), Color3.fromHex("#0066ff"))})
 
 Tabs.AutoFarm:Paragraph({
     Title = "NOTE",
-    Desc = "Anti-kick measures implemented. Use reasonable tween speeds (0.5-2s) to avoid detection.",
+    Desc = "We recommend not going lower than 1 second or you might get kicked. Tweening makes movement smoother and less detectable.",
     Image = "https://play-lh.googleusercontent.com/7cIIPlWm4m7AGqVpEsIfyL-HW4cQla4ucXnfalMft1TMIYQIlf2vqgmthlZgbNAQoaQ",
     ImageSize = 42,
     Thumbnail = "https://tr.rbxcdn.com/180DAY-59af3523ad8898216dbe1043788837bf/768/432/Image/Webp/noFilter",
@@ -183,105 +183,8 @@ Tabs.AutoFarm:Paragraph({
 
 -- Tween speed variable
 local tweenSpeed = 1 -- Default tween speed (lower is faster)
-local randomDelayRange = {0.1, 0.5} -- Random delay between actions
-local humanizeMovements = true -- Makes movements more natural
 
--- Improved tween function
-local function humanizedTween(part, targetCFrame)
-    local TweenService = game:GetService("TweenService")
-    
-    if humanizeMovements then
-        local offset = Vector3.new(
-            (math.random() - 0.5) * 0.5,
-            (math.random() - 0.5) * 0.3,
-            (math.random() - 0.5) * 0.5
-        )
-        targetCFrame = targetCFrame + offset
-    end
-    
-    local tweenInfo = TweenInfo.new(
-        tweenSpeed * (humanizeMovements and math.random(8, 12)/10 or 1),
-        Enum.EasingStyle.Quad,
-        Enum.EasingDirection.InOut,
-        0, false, 0
-    )
-    
-    local tween = TweenService:Create(part, tweenInfo, {CFrame = targetCFrame})
-    tween:Play()
-    return tween
-end
-
--- Anti-Kick System
-local AntiKick = {
-    Enabled = true,
-    DeleteKickUI = true,
-    BlockKickRemote = true,
-    Tested = false
-}
-
-local function testKick()
-    AntiKick.Tested = false
-    WindUI:Notify({
-        Title = "Anti-Kick Test",
-        Content = "Attempting to kick you in 3 seconds...",
-        Icon = "alert-triangle",
-        Duration = 3
-    })
-    
-    task.wait(3)
-    
-    game:GetService("Players").LocalPlayer:Kick("Anti-Kick Test - If you see this, the anti-kick failed!")
-    
-    task.delay(1, function()
-        if not AntiKick.Tested then
-            AntiKick.Tested = true
-            WindUI:Notify({
-                Title = "Anti-Kick Test",
-                Content = "✅ Test passed! Anti-kick is working properly.",
-                Icon = "check-circle",
-                Duration = 5
-            })
-        end
-    end)
-end
-
-local function setupAntiKick()
-    if AntiKick.DeleteKickUI then
-        game:GetService("Players").LocalPlayer.PlayerGui.ChildAdded:Connect(function(child)
-            if child.Name == "KickPrompt" or child:FindFirstChild("Message") then
-                task.wait(0.1)
-                child:Destroy()
-                WindUI:Notify({
-                    Title = "Anti-Kick",
-                    Content = "Kick attempt blocked (UI deleted)",
-                    Icon = "shield",
-                    Duration = 3
-                })
-            end
-        end)
-    end
-
-    if AntiKick.BlockKickRemote then
-        local oldNamecall
-        oldNamecall = hookmetamethod(game, "__namecall", function(self, ...)
-            local method = getnamecallmethod()
-            if AntiKick.Enabled and (method == "Kick" or method == "kick") and self == game:GetService("Players").LocalPlayer then
-                WindUI:Notify({
-                    Title = "Anti-Kick",
-                    Content = "Kick attempt blocked (remote prevented)",
-                    Icon = "shield",
-                    Duration = 3
-                })
-                return nil
-            end
-            return oldNamecall(self, ...)
-        end
-    end
-end
-
-setupAntiKick()
-
--- Beach Ball Farm Main Function
+-- Toggle for Beach Ball Farm
 Tabs.AutoFarm:Toggle(
     {
         Title = "Enable Beach Ball Farm",
@@ -292,14 +195,18 @@ Tabs.AutoFarm:Toggle(
                 WindUI:Notify(
                     {
                         Title = "Beach Ball Farm",
-                        Content = "Enabled with anti-kick protection!",
+                        Content = "Enabled! Farming Beach Balls with tweening...",
                         Icon = "check-circle",
                         Duration = 3
                     }
                 )
+                -- Start farming loop
                 coroutine.wrap(function()
+                    local TweenService = game:GetService("TweenService")
+                    
                     while getgenv().farm do
-                        if not map or not map.Parent then
+                        if (not map) or (not map.Parent) then
+                            -- Search for CoinContainer if not already set
                             for _, m in ipairs(workspace:GetDescendants()) do
                                 if m:IsA("Model") and m.Name == "CoinContainer" then
                                     map = m
@@ -319,106 +226,9 @@ Tabs.AutoFarm:Toggle(
                                             if not humPart then break end
                                         end
                                         
+                                        -- Disable collision for smoother farming
                                         for _, p in pairs(LocalPlayer.Character:GetChildren()) do
-                                            if p:IsA("BasePart") and p.CanCollide then
-                                                p.CanCollide = false
-                                            end
-                                        end
-                                        
-                                        local targetCFrame = coin.CFrame * CFrame.new(0, 6, 0)
-                                        local tween = humanizedTween(humPart, targetCFrame)
-                                        local randomDelay = math.random(randomDelayRange[1] * 100, randomDelayRange[2] * 100)/100
-                                        local startTime = tick()
-                                        while tick() - startTime < tweenSpeed + randomDelay and getgenv().farm do
-                                            task.wait()
-                                        end
-                                    end
-                                end
-                            end
-                        end
-                        task.wait(math.random(5, 15)/10)
-                    end
-                end)()
-            else
-                WindUI:Notify(
-                    {
-                        Title = "Beach Ball Farm",
-                        Content = "Disabled.",
-                        Icon = "x-circle",
-                        Duration = 3
-                    }
-                )
-            end
-        end
-    }
-)
-
--- Settings
-Tabs.AutoFarm:Slider(
-    {
-        Title = "Tween Speed (seconds)",
-        Description = "Recommended: 0.7-1.5 for safety",
-        Value = {Min = 0.3, Max = 3, Default = 1},
-        Callback = function(value)
-            tweenSpeed = value
-        end
-    }
-)
-
-Tabs.AutoFarm:Section({Title = gradient("Advanced Anti-Kick", Color3.fromHex("#ff0000"), Color3.fromHex("#ff8800"))})
-
-Tabs.AutoFarm:Toggle({
-    Title = "Enable Anti-Kick",
-    Default = true,
-    Callback = function(state)
-        AntiKick.Enabled = state
-    end
-})
-
-Tabs.AutoFarm:Toggle({
-    Title = "Delete Kick UI",
-    Default = true,
-    Callback = function(state)
-        AntiKick.DeleteKickUI = state
-    end
-})
-
-Tabs.AutoFarm:Toggle({
-    Title = "Block Kick Remotes",
-    Default = true,
-    Callback = function(state)
-        AntiKick.BlockKickRemote = state
-    end
-})
-
-Tabs.AutoFarm:Button({
-    Title = "TEST ANTI-KICK",
-    Callback = testKick
-})
-
-Tabs.AutoFarm:Paragraph({
-    Title = "Anti-Kick Status",
-    Desc = AntiKick.Tested and "✅ Last test passed - Anti-kick is working" or "⚠️ Not tested yet",
-    Image = AntiKick.Tested and "check-circle" or "alert-circle"
-})
-
-Tabs.AutoFarm:Button(
-    {
-        Title = "EMERGENCY STOP",
-        Callback = function()
-            getgenv().farm = false
-            WindUI:Notify(
-                {
-                    Title = "STOPPED",
-                    Content = "Beach Ball Farm force-disabled!",
-                    Icon = "alert-triangle",
-                    Duration = 5,
-                    Color = Color3.fromRGB(255, 0, 0)
-                }
-            )
-        end
-    }
-)
+                                            if p:IsA("Base
 
 
 -- Character  
