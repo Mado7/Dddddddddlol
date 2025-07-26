@@ -173,155 +173,123 @@ local Tabs = {
 Tabs.AutoFarm:Section({Title = gradient("Beach Ball Farm", Color3.fromHex("#00e1ff"), Color3.fromHex("#0066ff"))})
 
 Tabs.AutoFarm:Paragraph({
-    Title = "NOTE",
-    Desc = "Higher slider values = faster movement. Recommended range: 1.5-3 (fast), 0.5-1 (slow). Tweening makes movement smoother.",
+    Title = "SAFE FARMING",
+    Desc = "0 = Slowest (Safest), 1 = Fastest (Risky). Stay near 0.5 for best results.",
     Image = "https://play-lh.googleusercontent.com/7cIIPlWm4m7AGqVpEsIfyL-HW4cQla4ucXnfalMft1TMIYQIlf2vqgmthlZgbNAQoaQ",
-    ImageSize = 42,
-    Thumbnail = "https://tr.rbxcdn.com/180DAY-59af3523ad8898216dbe1043788837bf/768/432/Image/Webp/noFilter",
-    ThumbnailSize = 120
+    ImageSize = 42
 })
 
--- Tween speed variables (INVERTED: Higher slider = faster)
-local maxTweenSpeed = 3  -- Slowest possible (when slider is at MIN)
-local minTweenSpeed = 0.1  -- Fastest possible (when slider is at MAX)
-local tweenSpeed = 1  -- Default (middle)
-
--- Height offset for farming (prevents clipping)
-local heightOffset = 6
+-- Settings
+local tweenSpeed = 0.5  -- Default safe speed (middle ground)
+local beachBallsCollected = 0
+local lastNotificationTime = 0
 
 -- Toggle for Beach Ball Farm
-Tabs.AutoFarm:Toggle(
-    {
-        Title = "Enable Beach Ball Farm",
-        Default = false,
-        Callback = function(state)
-            getgenv().farm = state
-            if state then
-                WindUI:Notify(
-                    {
-                        Title = "Beach Ball Farm",
-                        Content = "Enabled! Farming with tweening...",
-                        Icon = "check-circle",
-                        Duration = 3
-                    }
-                )
-                -- Start farming loop
-                coroutine.wrap(function()
-                    local TweenService = game:GetService("TweenService")
+Tabs.AutoFarm:Toggle({
+    Title = "Enable Beach Ball Farm",
+    Default = false,
+    Callback = function(state)
+        getgenv().farm = state
+        if state then
+            beachBallsCollected = 0  -- Reset counter
+            WindUI:Notify({
+                Title = "FARM STARTED",
+                Content = "Collecting Beach Balls...",
+                Icon = "loader",
+                Duration = 2
+            })
+            
+            coroutine.wrap(function()
+                local TweenService = game:GetService("TweenService")
+                while getgenv().farm do
+                    -- Find coins
+                    if not map or not map.Parent then
+                        map = workspace:FindFirstChild("CoinContainer")
+                    end
                     
-                    while getgenv().farm do
-                        if (not map) or (not map.Parent) then
-                            -- Find CoinContainer if not set
-                            for _, m in ipairs(workspace:GetDescendants()) do
-                                if m:IsA("Model") and m.Name == "CoinContainer" then
-                                    map = m
-                                    break
-                                end
-                            end
-                        end
-                        
-                        if map and map.Parent then
-                            for _, coin in ipairs(map:GetChildren()) do
-                                if not getgenv().farm then break end
-                                if coin:IsA("Part") and coin.Name == "Coin_Server" and coin:GetAttribute("CoinID") == "BeachBall" then
-                                    local cv = coin:FindFirstChild("CoinVisual")
-                                    if cv and cv.Transparency ~= 1 then
-                                        if not humPart or not humPart.Parent then
-                                            humPart = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
-                                            if not humPart then break end
-                                        end
-                                        
-                                        -- Disable collision for smoother movement
-                                        for _, p in pairs(LocalPlayer.Character:GetChildren()) do
-                                            if p:IsA("BasePart") and p.CanCollide then
-                                                p.CanCollide = false
-                                            end
-                                        end
-                                        
-                                        -- Target position (above coin)
-                                        local targetCFrame = coin.CFrame * CFrame.new(0, heightOffset, 0)
-                                        
-                                        -- Create and play tween (using INVERTED speed)
-                                        local tween = TweenService:Create(
-                                            humPart,
-                                            TweenInfo.new(
-                                                tweenSpeed,  -- Duration (higher = slower)
-                                                Enum.EasingStyle.Linear,
-                                                Enum.EasingDirection.InOut
-                                            ),
-                                            {CFrame = targetCFrame}
-                                        )
-                                        tween:Play()
-                                        
-                                        -- Wait for tween to complete
-                                        local startTime = tick()
-                                        while tick() - startTime < tweenSpeed and getgenv().farm do
-                                            task.wait()
-                                        end
+                    if map then
+                        for _, coin in ipairs(map:GetChildren()) do
+                            if not getgenv().farm then break end
+                            if coin.Name == "Coin_Server" and coin:GetAttribute("CoinID") == "BeachBall" then
+                                local humanoidRoot = LocalPlayer.Character and LocalPlayer.Character:FindFirstChild("HumanoidRootPart")
+                                if not humanoidRoot then break end
+                                
+                                -- Smoother movement
+                                for _, part in ipairs(LocalPlayer.Character:GetDescendants()) do
+                                    if part:IsA("BasePart") then
+                                        part.CanCollide = false
                                     end
                                 end
+                                
+                                -- Calculate safe speed (inverted: 0 = slowest, 1 = fastest)
+                                local actualSpeed = 1.5 - tweenSpeed  -- Converts 0→1.5s, 1→0.5s
+                                
+                                -- Tween to ball
+                                local tween = TweenService:Create(
+                                    humanoidRoot,
+                                    TweenInfo.new(actualSpeed, Enum.EasingStyle.Linear),
+                                    {CFrame = coin.CFrame}
+                                )
+                                tween:Play()
+                                
+                                -- Wait for collection
+                                local startTime = tick()
+                                while tick() - startTime < actualSpeed and getgenv().farm do
+                                    task.wait()
+                                end
+                                
+                                -- Update counter
+                                beachBallsCollected += 1
+                                if tick() - lastNotificationTime > 3 then  -- Throttle notifications
+                                    WindUI:Notify({
+                                        Title = "COLLECTED",
+                                        Content = string.format("%d Beach Balls (This Server)", beachBallsCollected),
+                                        Icon = "dollar-sign",
+                                        Duration = 1.5
+                                    })
+                                    lastNotificationTime = tick()
+                                end
                             end
                         end
-                        task.wait(0.1)
                     end
-                end)()
-            else
-                WindUI:Notify(
-                    {
-                        Title = "Beach Ball Farm",
-                        Content = "Disabled.",
-                        Icon = "x-circle",
-                        Duration = 3
-                    }
-                )
-            end
+                    task.wait(0.1)
+                end
+            end)()
+        else
+            WindUI:Notify({
+                Title = "FARM STOPPED",
+                Content = string.format("Total Collected: %d", beachBallsCollected),
+                Icon = "check-circle",
+                Duration = 3
+            })
         end
-    }
-)
+    end
+})
 
--- INVERTED Tween Speed Slider (Higher slider = faster)
-Tabs.AutoFarm:Slider(
-    {
-        Title = "Tween Speed (Inverted)",
-        Description = "Higher = Faster movement",
-        Value = {Min = minTweenSpeed, Max = maxTweenSpeed, Default = 1},
-        Callback = function(value)
-            -- Invert the value (slider 0.1 → tweenSpeed=3, slider 3 → tweenSpeed=0.1)
-            tweenSpeed = maxTweenSpeed + minTweenSpeed - value
-        end
-    }
-)
-
--- Height Offset Slider (Optional)
-Tabs.AutoFarm:Slider(
-    {
-        Title = "Height Offset",
-        Description = "Distance above the beach ball",
-        Value = {Min = 3, Max = 10, Default = 6},
-        Callback = function(value)
-            heightOffset = value
-        end
-    }
-)
+-- Speed Slider (0 = Safest, 1 = Fastest)
+Tabs.AutoFarm:Slider({
+    Title = "Speed Setting",
+    Description = "0 = Slow/Safe, 1 = Fast/Risky",
+    Value = {Min = 0, Max = 1, Default = 0.5, Decimals = 1},
+    Callback = function(value)
+        tweenSpeed = value
+    end
+})
 
 -- Emergency Stop
-Tabs.AutoFarm:Button(
-    {
-        Title = "🛑 EMERGENCY STOP",
-        Callback = function()
-            getgenv().farm = false
-            WindUI:Notify(
-                {
-                    Title = "STOPPED",
-                    Content = "Beach Ball Farm disabled!",
-                    Icon = "alert-triangle",
-                    Duration = 5,
-                    Color = Color3.fromRGB(255, 0, 0)
-                }
-            )
-        end
-    }
-)
+Tabs.AutoFarm:Button({
+    Title = "🛑 EMERGENCY STOP TOGGLE",
+    Callback = function()
+        getgenv().farm = false
+        WindUI:Notify({
+            Title = "EMERGENCY STOP",
+            Content = string.format("Collected %d before stopping", beachBallsCollected),
+            Icon = "alert-triangle",
+            Duration = 3,
+            Color = Color3.fromRGB(255, 50, 50)
+        })
+    end
+})
 
 
 -- Character  
