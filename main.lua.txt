@@ -4,93 +4,109 @@ local Players = game:GetService("Players")
 local player = Players.LocalPlayer
 local playerGui = player:WaitForChild("PlayerGui")
 
--- Create ScreenGui
+-- ScreenGui
 local screenGui = Instance.new("ScreenGui")
 screenGui.Name = "MadoHubUI"
 screenGui.ResetOnSpawn = false
 screenGui.Parent = playerGui
 
--- Create background frame
+-- Fullscreen Gradient Background
 local bg = Instance.new("Frame")
 bg.Size = UDim2.new(1,0,1,0)
-bg.BackgroundColor3 = Color3.fromRGB(15,15,15)
-bg.BackgroundTransparency = 1 -- start invisible
+bg.BackgroundTransparency = 1
 bg.Parent = screenGui
 
--- Create title label
+local gradient = Instance.new("UIGradient")
+gradient.Color = ColorSequence.new{
+    ColorSequenceKeypoint.new(0, Color3.fromRGB(20, 20, 50)),
+    ColorSequenceKeypoint.new(1, Color3.fromRGB(50, 20, 80))
+}
+gradient.Rotation = 45
+gradient.Parent = bg
+
+-- Function to create fade tweens
+local function tweenProperty(inst, properties, time, style, dir)
+    local tween = TweenService:Create(inst, TweenInfo.new(time, style or Enum.EasingStyle.Quad, dir or Enum.EasingDirection.Out), properties)
+    tween:Play()
+    return tween
+end
+
+-- Title
 local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1,0,0,100)
-title.Position = UDim2.new(0,0,0.3,0)
+title.Size = UDim2.new(1,0,0,120)
+title.Position = UDim2.new(0,0,0.2,0)
 title.BackgroundTransparency = 1
 title.Text = "MadoHub"
 title.TextColor3 = Color3.fromRGB(255,255,255)
 title.Font = Enum.Font.GothamBlack
 title.TextScaled = true
-title.TextTransparency = 1 -- start invisible
+title.TextTransparency = 1
 title.Parent = bg
 
--- Create subtitle
+-- Subtitle
 local subtitle = Instance.new("TextLabel")
-subtitle.Size = UDim2.new(1,0,0,50)
-subtitle.Position = UDim2.new(0,0,0.45,0)
+subtitle.Size = UDim2.new(1,0,0,60)
+subtitle.Position = UDim2.new(0,0,0.35,0)
 subtitle.BackgroundTransparency = 1
 subtitle.Text = "Choose your language - اختر لغتك"
-subtitle.TextColor3 = Color3.fromRGB(255,255,255)
+subtitle.TextColor3 = Color3.fromRGB(200,200,200)
 subtitle.Font = Enum.Font.GothamBold
 subtitle.TextScaled = true
-subtitle.TextTransparency = 1 -- start invisible
+subtitle.TextTransparency = 1
 subtitle.Parent = bg
 
--- Create buttons
-local function createButton(text, position)
+-- Buttons
+local function createButton(text, posY)
     local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(0.3,0,0,50)
-    btn.Position = position
-    btn.BackgroundColor3 = Color3.fromRGB(35,35,35)
-    btn.TextColor3 = Color3.fromRGB(255,255,255)
-    btn.Font = Enum.Font.GothamBold
-    btn.TextScaled = true
+    btn.Size = UDim2.new(0.25,0,0,50)
+    btn.Position = UDim2.new(0.375,0,posY,0)
+    btn.BackgroundColor3 = Color3.fromRGB(45, 45, 60)
+    btn.BorderSizePixel = 0
     btn.Text = text
-    btn.TextTransparency = 1 -- start invisible
+    btn.Font = Enum.Font.GothamBold
+    btn.TextColor3 = Color3.fromRGB(255,255,255)
+    btn.TextScaled = true
+    btn.BackgroundTransparency = 0.2
+    btn.ClipsDescendants = true
     btn.Parent = bg
+
+    local corner = Instance.new("UICorner")
+    corner.CornerRadius = UDim.new(0,12)
+    corner.Parent = btn
+
+    btn.MouseEnter:Connect(function()
+        tweenProperty(btn, {BackgroundColor3 = Color3.fromRGB(70, 50, 120)}, 0.2)
+    end)
+    btn.MouseLeave:Connect(function()
+        tweenProperty(btn, {BackgroundColor3 = Color3.fromRGB(45, 45, 60)}, 0.2)
+    end)
     return btn
 end
 
-local englishBtn = createButton("English", UDim2.new(0.35,0,0.6,0))
-local arabicBtn = createButton("Arabic", UDim2.new(0.35,0,0.7,0))
+local englishBtn = createButton("English", 0.55)
+local arabicBtn = createButton("Arabic", 0.65)
 
--- Tween function
-local function fadeIn(inst, time)
-    TweenService:Create(inst, TweenInfo.new(time), {TextTransparency = 0, BackgroundTransparency = 0}):Play()
-end
-
-local function fadeOut(inst, time)
-    TweenService:Create(inst, TweenInfo.new(time), {TextTransparency = 1, BackgroundTransparency = 1}):Play()
-end
-
--- Animate UI sequence
-TweenService:Create(bg, TweenInfo.new(1.5), {BackgroundTransparency = 0}):Play()
-wait(1)
-fadeIn(title, 1)
-wait(1)
-fadeIn(subtitle, 1)
+-- Animate everything
+tweenProperty(bg, {BackgroundTransparency = 0}, 1.5)
 wait(0.5)
-fadeIn(englishBtn, 1)
-fadeIn(arabicBtn, 1)
+tweenProperty(title, {TextTransparency = 0}, 1.2)
+wait(0.3)
+tweenProperty(subtitle, {TextTransparency = 0}, 1)
+wait(0.3)
+tweenProperty(englishBtn, {BackgroundTransparency = 0, TextTransparency = 0}, 0.8)
+tweenProperty(arabicBtn, {BackgroundTransparency = 0, TextTransparency = 0}, 0.8)
 
 -- Button functionality
 englishBtn.MouseButton1Click:Connect(function()
     print("English selected")
-    -- You can add your English UI loading here
-    fadeOut(bg, 1)
-    wait(1)
+    tweenProperty(bg, {BackgroundTransparency = 1}, 0.8)
+    wait(0.8)
     screenGui:Destroy()
 end)
 
 arabicBtn.MouseButton1Click:Connect(function()
     print("Arabic selected")
-    -- You can add your Arabic UI loading here
-    fadeOut(bg, 1)
-    wait(1)
+    tweenProperty(bg, {BackgroundTransparency = 1}, 0.8)
+    wait(0.8)
     screenGui:Destroy()
 end)
