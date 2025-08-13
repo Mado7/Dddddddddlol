@@ -4,7 +4,7 @@ local Libary = loadstring(game:HttpGet("https://raw.githubusercontent.com/tbao14
 workspace.FallenPartsDestroyHeight = -math.huge
 
 local Window = Libary:MakeWindow({
-    Title = "MadoHub | Brookhaven RP ",
+    Title = "MadoHub | Brookhaven RP ARABIC VERISON ",
     SubTitle = "by: Mado",
     LoadText = "Loading MadoHub",
     Flags = "ChaosHub_Broookhaven"
@@ -14,32 +14,32 @@ Window:AddMinimizeButton({
     Corner = { CornerRadius = UDim.new(35, 1) },
 })
 
-local InfoTab = Window:MakeTab({ Title = "Info", Icon = "rbxassetid://15309138473" })
+local InfoTab = Window:MakeTab({ Title = "معلومات", Icon = "rbxassetid://15309138473" })
 
 
 
 InfoTab:AddSection({ "Script information" })
-InfoTab:AddParagraph({ "Owner / Developer:", "Mado" })
+InfoTab:AddParagraph({ "مالك / مطور:", "Mado" })
 
-InfoTab:AddSection({ "Rejoin" })
+InfoTab:AddSection({ "اعادة دخول السيرفر" })
 InfoTab:AddButton({
-    Name = "Rejoin",
+    Name = "اعادة دخول السيرفر الحالي",
     Callback = function()
         local TeleportService = game:GetService("TeleportService")
         TeleportService:TeleportToPlaceInstance(game.PlaceId, game.JobId, game.Players.LocalPlayer)
     end
 })
 
-InfoTab:AddSection({ "Join MadoHub Offical Discord Server for updates and more." })
+InfoTab:AddSection({ "ادخل سيرفر الديسكورد الاصلي بتاع مادو هاب" })
 InfoTab:AddButton({
-    Name = "Discord Link",
+    Name = "رابط الديسكورد",
     Callback = function()
         local discordLink = "https://discord.gg/VJrdJFU9pp"
         if setclipboard then
             setclipboard(discordLink)
             game:GetService("StarterGui"):SetCore("SendNotification", {
                 Title = "Discord Link",
-                Text = "Copied to clipboard! Paste in your browser.",
+                Text = "تم نسخه إلى الحافظة! ألصق في متصفحك.",
                 Duration = 5
             })
         else
@@ -53,14 +53,14 @@ InfoTab:AddButton({
 })
 
 InfoTab:AddButton({
-    Name = "Backup Discord Link",
+    Name = "رابط النسخ الاحتياطي لديسكورد",
     Callback = function()
         local backupLink = "https://dsc.gg/madohub"
         if setclipboard then
             setclipboard(backupLink)
             game:GetService("StarterGui"):SetCore("SendNotification", {
                 Title = "Backup Discord Link",
-                Text = "Copied to clipboard! Paste in your browser.",
+                Text = "تم نسخه إلى الحافظة! ألصق في متصفحك.",
                 Duration = 5
             })
         else
@@ -76,13 +76,13 @@ InfoTab:AddButton({
 
 
 
-local TrollTab = Window:MakeTab({ Title = "Scripts Trolls", Icon = "rbxassetid://13364900349" })
+local TrollTab = Window:MakeTab({ Title = "سكربتات ترول", Icon = "rbxassetid://13364900349" })
 
 
-TrollTab:AddSection({ "Black Hole" })
+TrollTab:AddSection({ "ثقب أسود" })
 TrollTab:AddButton({
     Name = "Black Hole",
-    Description = "By activating this, you pull Parts to your character.",
+    Description = "من خلال تفعيل هذا، يمكنك سحب الأجزاء إلى شخصيتك.",
     Callback = function()
         local Players = game:GetService("Players")
 local RunService = game:GetService("RunService")
@@ -236,7 +236,7 @@ toggleBlackHole()
 TrollTab:AddSection({ "Puxar Parts" })
 TrollTab:AddButton({
     Name = "Pull Parts",
-    Description = "To use, get close to the Selected Player",
+    Description = "للاستخدام، اقترب من اللاعب المحدد",
     Callback = function()
         -- Gui to Lua
 -- Version: 3.2
@@ -484,8 +484,8 @@ coroutine.wrap(JUBNQKI_fake_script)()
 TrollTab:AddSection({ "Invisível" })
 
 TrollTab:AddButton({
-    Name = "Become Invisible",
-    Description = "Become invisible FE",
+    Name = "اصبح مخفي",
+    Description = "اصبح مخفي (لا حد يقدر يشوفك)",
     Callback = function()
         
         local args = {
@@ -531,7 +531,7 @@ end
 })
 
 
-TrollTab:AddSection({ "Avatar RGB" })
+TrollTab:AddSection({ "افاتار ملون" })
 
 local colors = { "Bright red", "Lime green", "Bright blue", "Bright yellow", "Bright cyan", "Hot pink", "Royal purple" }
 local rgbEnabled = false
@@ -555,8 +555,8 @@ local function toggleRGBCharacter(enabled)
 end
 
 TrollTab:AddToggle({
-    Name = "RGB Character",
-    Description = "Makes your character RGB",
+    Name = "شخصية ملونة",
+    Description = "يخلي بشرة شخصيتك تلفون الوان كتير",
     Default = false,
     Callback = function(value)
         toggleRGBCharacter(value)
@@ -564,7 +564,7 @@ TrollTab:AddToggle({
 })
 
 
-TrollTab:AddSection({ "RGB Hair" })
+TrollTab:AddSection({ "شعر ملون" })
 local hairColors = {
     Color3.new(1, 1, 0), Color3.new(0, 0, 1), Color3.new(1, 0, 1), Color3.new(1, 1, 1),
     Color3.new(0, 1, 0), Color3.new(0.5, 0, 1), Color3.new(1, 0.647, 0), Color3.new(0, 1, 1)
@@ -585,8 +585,8 @@ end
 
 
 TrollTab:AddToggle({
-    Name = "RGB Hair",
-    Description = "Makes Your Hair RGB",
+    Name = "شعر ملون",
+    Description = "يخلي شعرك ملون",
     Default = false,
     Callback = function(value)
         isActive = value
@@ -598,10 +598,10 @@ TrollTab:AddToggle({
 
 
 -- Tab 4: Anti Sit
-TrollTab:AddSection({ "Anti Sit" })
+TrollTab:AddSection({ "ضد الجلوس" })
 TrollTab:AddToggle({
-    Name = "Anti Sit",
-    Description = "Doesn’t let your character sit (for the assholes who uses cart and other stuff)",
+    Name = "عدم الجلوس",
+    Description = "ما راح يخلي شخصيتك تقعد علي اي شي مثل السلة و الخ..",
     Default = false,
     Callback = function(Value)
         local player = game.Players.LocalPlayer
@@ -666,7 +666,7 @@ TrollTab:AddToggle({
     end
 })
 
-local Troll = Window:MakeTab({ Title = "Troll Players", Icon = "rbxassetid://131153193945220" })
+local Troll = Window:MakeTab({ Title = "سكربتات ترول", Icon = "rbxassetid://131153193945220" })
 
 
 local Players = game:GetService("Players")
@@ -1096,7 +1096,7 @@ end
     end
 
     local killDropdown = Troll:AddDropdown({
-        Name = "Select Player",
+        Name = "اختر اللاعب",
         Options = getPlayerList(),
         Default = "",
         Callback = function(value)
@@ -1107,7 +1107,7 @@ end
     })
 
     Troll:AddButton({
-        Name = "Update Player List",
+        Name = "تحديث قائمة اللاعبين",
         Callback = function()
             local tablePlayers = Players:GetPlayers()
             local newPlayers = {}
@@ -1132,7 +1132,7 @@ end
     })
 
     Troll:AddButton({
-    Name = "Teleport to Player",
+    Name = "روح للاعب",
     Callback = function()
         if not selectedPlayerName or not Players:FindFirstChild(selectedPlayerName) then
             print("Error: Player not selected or does not exist")
@@ -1156,7 +1156,7 @@ end
 
 
     Troll:AddToggle({
-        Name = "Spectate Player",
+        Name = "تجسس علي اللاعب",
         Default = false,
         Callback = function(value)
             local Camera = workspace.CurrentCamera
@@ -1194,11 +1194,11 @@ end
         end
     })
 
-    local MethodSection = Troll:AddSection({ Name = "Methods" })
+    local MethodSection = Troll:AddSection({ Name = "طرق" })
 
     Troll:AddDropdown({
-    Name = "Select Method to Kill",
-    Options = {"Bus", "Couch", "Couch Without Going to Target [BETA]"},
+    Name = "حدد طريقة القتل",
+    Options = {"الباص", "الكنبه", "كنبه بدون الذهاب للاعب (بيتا)"},
     Default = "",
     Callback = function(value)
         methodKill = value
@@ -1208,15 +1208,15 @@ end
 
 
     Troll:AddButton({
-    Name = "Kill Player",
+    Name = "قتل اللاعب",
     Callback = function()
         if not selectedPlayerName or not Players:FindFirstChild(selectedPlayerName) then
             print("Error: Player not selected or does not exist")
             return
         end
-        if methodKill == "Couch" then
+        if methodKill == "الكنبه" then
             KillPlayerCouch()
-        elseif methodKill == "Couch Without Going to Target [BETA]" then
+        elseif methodKill == "كنبه بدون الذهاب للاعب (بيتا)" then
             KillWithCouch()
         else
             -- Bus method
@@ -1312,15 +1312,15 @@ end
     })
 
     Troll:AddButton({
-    Name = "Pull Player",
+    Name = "سحب اللاعب",
     Callback = function()
         if not selectedPlayerName or not Players:FindFirstChild(selectedPlayerName) then
             print("Error: Player not selected or does not exist")
             return
         end
-        if methodKill == "Couch" then
+        if methodKill == "الكنبه" then
             BringPlayerLLL()
-        elseif methodKill == "Couch Without Going to Target [BETA]" then
+        elseif methodKill == "كنبه بدون الذهاب للاعب (بيتا)" then
             BringWithCouch()
         else
             -- Bus method
@@ -1568,7 +1568,7 @@ local function houseBanKill()
 end
 
 Troll:AddButton({
-    Name = "House Ban Kill",
+    Name = "قتل اللاعب باستخدام طرد البيت",
     Callback = houseBanKill
 })
 
@@ -1742,7 +1742,7 @@ end
 end
 
 Troll:AddButton({
-    Name = "Fling Ball",
+    Name = "طير اللاعب بعيد باستخدام الكرة",
     Callback = function()
         FlingBall(game:GetService("Players")[selectedPlayerName])
     end
@@ -1947,10 +1947,10 @@ local function ActiveAutoFling(targetPlayer)
     end
 end
 
-local kill = Troll:AddSection({Name = "Fling Boat"})
+local kill = Troll:AddSection({Name = "طير اللاعب باستخدام القارب"})
 
 Troll:AddButton({
-    Name = "Fling - Boat",
+    Name = "طير اللاعب - باستخدام القارب",
     Callback = function()
         if not selectedPlayerName or not game.Players:FindFirstChild(selectedPlayerName) then
             warn("No player selected or does not exist")
@@ -2055,7 +2055,7 @@ Troll:AddButton({
 print("Fling - Boat button created")
 
 Troll:AddButton({
-    Name = "Turn Off Fling - Boat",
+    Name = "طفي طير اللاعب - باستخدام القارب",
     Callback = function()
         local Player = game.Players.LocalPlayer
         local Character = Player.Character
@@ -2114,11 +2114,11 @@ Troll:AddButton({
     end
 })
 
-local kill = Troll:AddSection({Name = "Click Kill Methods"})
+local kill = Troll:AddSection({Name = "طرق القتل بالنقر"})
 
 Troll:AddButton({
-  Name = "Click Fling Doors [Beta]",
-  Description = "To use, I recommend getting close to other doors, after it comes to you, click on the player you want to fling",
+  Name = "طير اللاعب بالابواب بالضغط [بيتا]",
+  Description = "للاستخدام، أنصحك بالاقتراب من الأبواب الأخرى، وبعد أن تقترب منك، اضغط على اللاعب الذي تريد تطيره بعيد.",
   Callback = function()
 local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
@@ -2261,7 +2261,7 @@ end)
 
 
 Troll:AddButton({
-    Name = "Click Fling Couch (Tool)",
+    Name = "طير اللاعب بالضغط باستخدام الكنبه (Tool)",
     Callback = function()
 
 local jogadores = game:GetService("Players")
@@ -2397,7 +2397,7 @@ end
 })
 
 Troll:AddButton({
-    Name = "Click Fling Ball (Tool)",
+    Name = "طير اللاعب بالضغط باستخدام الكرة (Tool)",
     Callback = function()
 local jogadores = game:GetService("Players")
 local rep = game:GetService("ReplicatedStorage")
@@ -2520,7 +2520,7 @@ end
 })
 
 Troll:AddButton({
-    Name = "Click Kill Couch (Tool)",
+    Name = "طير اللاعب بالضغط باستخدام الكنبه (Tool)",
     Callback = function()
 
 local jogadores = game:GetService("Players")
@@ -2709,10 +2709,10 @@ end)
 end
 })
 
-local kill = Troll:AddSection({Name = "All methods"})
+local kill = Troll:AddSection({Name = "كل الطرق"})
 
 Troll:AddButton({
-    Name = "Kill All Bus",
+    Name = "اقتل الكل بالباص",
     Callback = function()
         local Players = game:GetService("Players")
 local Workspace = game:GetService("Workspace")
@@ -2849,7 +2849,7 @@ PerformActionForAllPlayers(Players:GetPlayers())
 print("Kill All Bus button created")
 
 Troll:AddButton({
-    Name = "House Ban kill All",
+    Name = "اقتل الكل باستخدام طرد البيت",
     Callback = function()
         local ReplicatedStorage = game:GetService("ReplicatedStorage")
 local Players = game:GetService("Players")
@@ -3125,7 +3125,7 @@ Troll:AddButton({
 print("Fling Boat All button created")
 
 Troll:AddButton({
-    Name = "Auto Fling All",
+    Name = "طير اللاعبين تلقائي",
     Callback = function()
     local Players = game:GetService("Players")
     local ReplicatedStorage = game:GetService("ReplicatedStorage")
@@ -3226,7 +3226,7 @@ task.wait(0.25)
 })
 
 Troll:AddButton({
-    Name = "Bring All Couch [BETA]",
+    Name = "اسحب الكل باستخدام الكنبه [BETA]",
     Callback = function()
         local args = {
     [1] = "ClearAllTools"
@@ -3341,9 +3341,9 @@ for m=1, dupeamot do
         game:GetService("Workspace"):FindFirstChild("Camera"):Destroy() 
     end
     if m <= dupeamot then
-        game:GetService("StarterGui"):SetCore("SendNotification",{Title="Dupando vida",Text="Se tem".." "..m.." ".."Duped".." "..toolselcted.."!",Duration=0.5})
+        game:GetService("StarterGui"):SetCore("SendNotification",{Title="جاري عمل نسخ",Text="لديك".." "..m.." ".."Duped".." "..toolselcted.."!",Duration=0.5})
     elseif m == dupeamot or m >= dupeamot - 1 then
-        game:GetService("StarterGui"):SetCore("SendNotification",{Title="Dupando",Text="Se tem".." "..m.." ".."Duped".." "..toolselcted.."!".." ".."Duping tools is done now, Please wait a little bit to respawn.",Duration=4})
+        game:GetService("StarterGui"):SetCore("SendNotification",{Title="جاري عمل نسخ",Text="لديك".." "..m.." ".."Duped".." "..toolselcted.."!".." ".."Duping tools is done now, Please wait a little bit to respawn.",Duration=4})
     end
     local args = {
         [1] = "PickingTools",
@@ -3450,7 +3450,7 @@ end
 print("Bring All Couch button created")
 
 Troll:AddButton({
-    Name = "Kill All Couch [BETA]",
+    Name = "اقتل الكل باستخدام الكنبه [بيتا]",
     Callback = function()
         local args = {
     [1] = "ClearAllTools"
@@ -3580,9 +3580,9 @@ for m=1, dupeamot do
         game:GetService("Workspace"):FindFirstChild("Camera"):Destroy() 
     end
     if m <= dupeamot then
-        game:GetService("StarterGui"):SetCore("SendNotification",{Title="Dupe Script",Text="MadoHub:".." "..m.." ".."Duped".." "..toolselcted.."!",Duration=0.5})
+        game:GetService("StarterGui"):SetCore("SendNotification",{Title="جاري النسخ",Text="MadoHub:".." "..m.." ".."Duped".." "..toolselcted.."!",Duration=0.5})
     elseif m == dupeamot or m >= dupeamot - 1 then
-        game:GetService("StarterGui"):SetCore("SendNotification",{Title="Dupe Script",Text="MadoHub:".." "..m.." ".."Duped".." "..toolselcted.."!".." ".."As tools Tao sendo dupada Clica em nada nao fiote",Duration=4})
+        game:GetService("StarterGui"):SetCore("SendNotification",{Title="جاري النسخ",Text="MadoHub:".." "..m.." ".."Duped".." "..toolselcted.."!".." ".."As tools Tao sendo dupada Clica em nada nao fiote",Duration=4})
     end
     local args = {
         [1] = "PickingTools",
@@ -3700,7 +3700,7 @@ end)
 print("Kill All Couch button created")  
 
 Troll:AddButton({
-    Name = "Fling Ball all",
+    Name = "طير الكل بالكرة",
     Callback = function()
 local player=game:GetService("Players").LocalPlayer
 local SoccerBalls=workspace.WorkspaceCom["001_SoccerBalls"]
@@ -3776,9 +3776,9 @@ workspace.CurrentCamera.CameraSubject=game.Players.LocalPlayer.Character:WaitFor
 })
 
 
-local Tab = Window:MakeTab({"Avatar", "rbxassetid://10734952036"})
+local Tab = Window:MakeTab({"سكنات", "rbxassetid://10734952036"})
 
-Tab:AddSection({ Name = "Copiar Skin" })
+Tab:AddSection({ Name = "نسخ السكن" })
 
 
 
@@ -3799,7 +3799,7 @@ end
 
 -- Dropdown de seleÃ§Ã£o de jogador
 local Dropdown = Tab:AddDropdown({
-    Name = "Select Player",
+    Name = "اختر اللاعب",
     Options = GetPlayerNames(),
     Default = Target,
     Callback = function(Value)
@@ -3816,7 +3816,7 @@ Players.PlayerAdded:Connect(UpdateDropdown)
 Players.PlayerRemoving:Connect(UpdateDropdown)
 
 Tab:AddButton({
-    Name = "Copy Avatar",
+    Name = "نسخ السكن",
     Callback = function()
         if not Target then return end
 
@@ -3980,7 +3980,7 @@ end
 
 -- Variáveis globais
 local isUnbanActive = false
-local HouseTab = Window:MakeTab({"Houses", "home"})
+local HouseTab = Window:MakeTab({"البيوت", "home"})
 local SelectHouse = nil
 local NoclipDoor = nil
 
@@ -4001,7 +4001,7 @@ end
 -- Dropdown para selecionar casas
 pcall(function()
     HouseTab:AddDropdown({
-        Name = "Select the House",
+        Name = "اختر البيت",
         Options = getHouseList(),
         Default = "...",
         Callback = function(Value)
@@ -4040,7 +4040,7 @@ pcall(DropdownHouseUpdate)
 -- Botão para atualizar lista de casas
 pcall(function()
     HouseTab:AddButton({
-        Name = "Update House List",
+        Name = "حدث قائمه البيوت",
         Callback = function()
             print("Update House List button clicked.")
             pcall(DropdownHouseUpdate)
@@ -4051,7 +4051,7 @@ end)
 -- Botão para teleportar para casa
 pcall(function()
     HouseTab:AddButton({
-        Name = "Teleport to House",
+        Name = "اذهب للبيت",
         Callback = function()
             local House = workspace["001_Lots"]:FindFirstChild(tostring(SelectHouse))
             if House and game.Players.LocalPlayer.Character then
@@ -4066,7 +4066,7 @@ end)
 -- Botão para teleportar para cofre
 pcall(function()
     HouseTab:AddButton({
-        Name = "Teleport to Safe",
+        Name = "اذهب للخزنة",
         Callback = function()
             local House = workspace["001_Lots"]:FindFirstChild(tostring(SelectHouse))
             if House and House:FindFirstChild("HousePickedByPlayer") and game.Players.LocalPlayer.Character then
@@ -4086,7 +4086,7 @@ end)
 -- Toggle para atravessar porta
 pcall(function()
     NoclipDoor = HouseTab:AddToggle({
-        Name = "Pass Through House Door",
+        Name = "اخترق الباب",
         Description = "",
         Default = false,
         Callback = function(Value)
@@ -4111,7 +4111,7 @@ end)
 -- Toggle para tocar campainha
 pcall(function()
     HouseTab:AddToggle({
-        Name = "Ring the Doorbell",
+        Name = "دق الجرس",
         Description = "",
         Default = false,
         Callback = function(Value)
@@ -4137,7 +4137,7 @@ end)
 -- Toggle para bater na porta
 pcall(function()
     HouseTab:AddToggle({
-        Name = "Knock on the Door",
+        Name = "طرق الباب",
         Description = "",
         Default = false,
         Callback = function(Value)
@@ -4160,7 +4160,7 @@ pcall(function()
     })
 end)
 pcall(function()
-    HouseTab:AddSection({ Name = "Teleport to Houses" })
+    HouseTab:AddSection({ Name = "اذهب للبيوت" })
 end)
 
 -- Lista de casas para teletransporte
@@ -4224,18 +4224,18 @@ end)
 
 -- Label após dropdown
 pcall(function()
-    HouseTab:AddLabel("Teleport to Any House You Want")
+    HouseTab:AddLabel("اذهب الي اي بيت تريده")
 end)
 
 -- Seção para Auto Unban
 pcall(function()
-    HouseTab:AddSection({ Name = "Auto Unban" })
+    HouseTab:AddSection({ Name = "شيل البان تلقائي" })
 end)
 
 -- Toggle para Auto Unban
 pcall(function()
     HouseTab:AddToggle({
-        Name = "Auto Unban",
+        Name = "حذف البان تلقائي",
         Default = false,
         Callback = function(state)
             isUnbanActive = state
@@ -4251,18 +4251,18 @@ end)
 
 -- Label após Auto Unban
 pcall(function()
-    HouseTab:AddLabel("Automatically unban you from any house you got banned from")
+    HouseTab:AddLabel("تلقائي يشيل منك البان من اي بيت اخدت منه بان")
 end)
 
 -- Seção para Casa RGB
 pcall(function()
-    HouseTab:AddSection({ Name = "House RGB" })
+    HouseTab:AddSection({ Name = "بيت ملون" })
 end)
 
 -- Toggle para Casa RGB
 pcall(function()
     HouseTab:AddToggle({
-        Name = "House RGB",
+        Name = "بيت ملون",
         Default = false,
         Callback = function(state)
             toggleHouseRGB(state)
@@ -4272,7 +4272,7 @@ end)
 
 -- Label após Casa RGB
 pcall(function()
-    HouseTab:AddLabel("Makes your house RGB")
+    HouseTab:AddLabel("يخلي بيتك ملون")
 end)
 
 -- Função para Auto Unban
@@ -4289,10 +4289,10 @@ function startAutoUnban()
     end
 end
 
-local Tab = Window:MakeTab({"Audio All", "music"})
+local Tab = Window:MakeTab({"اصوات للكل", "music"})
 
 -- Create a section
-Tab:AddSection({"Audio for All Players"})
+Tab:AddSection({"اصوات لكل اللاعبين"})
 
 -- List of audios
 local audios = {
@@ -4341,7 +4341,7 @@ local selectedAudioID
 
 -- Add a textbox to input the audio ID
 Tab:AddTextBox({
-    Name = "Enter the Audio or Music ID",
+    Name = "دخل الصوت او الايدي بتاع الموسيقي",
     Description = "Type the audio ID",
     PlaceholderText = "Audio ID",
     Callback = function(value)
@@ -4356,8 +4356,8 @@ for _, audio in ipairs(audios) do
 end
 
 Tab:AddDropdown({
-    Name = "Select Audio",
-    Description = "Choose an audio from the list",
+    Name = "اختر الصوت",
+    Description = "اختر صوت من القائمه",
     Options = audioNames,
     Default = audioNames[1],
     Flag = "selected_audio",
@@ -4375,7 +4375,7 @@ Tab:AddDropdown({
 local audioLoop = false
 
 -- Nova seção para loop de áudio
-Tab:AddSection({"Audio Loop"})
+Tab:AddSection({"تكرار الصوت"})
 
 -- Função para tocar o áudio repetidamente
 local function playLoopedAudio()
@@ -4403,8 +4403,8 @@ end
 
 -- Toggle para loop de áudio
 Tab:AddToggle({
-    Name = "Loop Play Audio",
-    Description = "Enables audio loop",
+    Name = "تكرار تشغيل الصوت",
+    Description = "يخلي الصوت شغال علي طول",
     Default = false,
     Flag = "audio_loop",
     Callback = function(value)
@@ -4416,7 +4416,7 @@ Tab:AddToggle({
 })
 
 -- Adicionar um parágrafo como label
-Tab:AddParagraph({"Info", "Audio Loop (All players on the server hear)"})
+Tab:AddParagraph({"معلومة", "تكرار الصوت (كل الناس تسمعه.. غير لو طافيين الصوت احم)"})
 
 -- Função para tocar o áudio normal
 local function playAudio()
@@ -4439,10 +4439,10 @@ local function playAudio()
 end
 
 -- New section to play audio
-Tab:AddSection({"Play Audio"})
+Tab:AddSection({"تشغيل الصوت"})
 
 -- Button to play the audio
-Tab:AddButton({"Play Audio", function()
+Tab:AddButton({"شغل الصوت", function()
     playAudio()
 end})
 
@@ -4496,8 +4496,8 @@ end
 
 -- Toggle para "Estorar ouvido de geral"
 Tab:AddToggle({
-    Name = "Burst Everyone's Ears LOL",
-    Description = "Plays audio repeatedly for everyone",
+    Name = "فجر اذن الناس كلهم",
+    Description = "يشغل صوت مذعج و عالي يفجر اذنهم",
     Default = false,
     Flag = "audio_spam",
     Callback = function(value)
@@ -4513,20 +4513,20 @@ Tab:AddToggle({
     end
 })
 
-Tab:AddParagraph({"Info", "Everyone on the server hears the audio"})
+Tab:AddParagraph({"معلومة", "كل الناس تسمع الصوت ماعدا يلي طافيين الصوت"})
 
 
-local Tab = Window:MakeTab({"Lag Server", "bomb"})
+local Tab = Window:MakeTab({"لاج للسيرفر", "bomb"})
 
 
 -- Shutdown Custom Section
 local Section = Tab:AddSection({
-    Name = "Custom Shutdown"
+    Name = "غلق السيرفرات بطرق"
 })
 
 -- Shutdown Server Button
 Tab:AddButton({
-    Name = "Shutdown Server",
+    Name = "غلق السيرفر",
     Callback = function()
         for m = 1, 495 do
             local args = {
@@ -4572,7 +4572,7 @@ Tab:AddButton({
 
 -- Shutdown Server (Internet Error) Button
 Tab:AddButton({
-    Name = "Shutdown Server (Internet Error)",
+    Name = "غلق السيرفر (خطا في الانترنت)",
     Callback = function()
         for m = 1, 535 do
             local args = {
@@ -4618,7 +4618,7 @@ Tab:AddButton({
 
 -- Shutdown Server (Timeout Error) Button
 Tab:AddButton({
-    Name = "Shutdown Server (Connection Timeout Error)",
+    Name = "غلق السيرفر (يظهر: حدث خطا)",
     Callback = function()
         for m = 1, 635 do
             local args = {
@@ -4660,7 +4660,7 @@ Tab:AddButton({
 
 -- Lag Laptop Section
 local Section = Tab:AddSection({
-    Name = "Lagging with a laptop"
+    Name = "لاج باستخدام اللابتوب"
 })
 
 -- Toggle State for Lag Laptop
@@ -4691,7 +4691,7 @@ end
 
 -- Lag Laptop Toggle
 Tab:AddToggle({
-    Name = "Lag with Laptop",
+    Name = "لاج باستخدام اللابتوب",
     Default = false,
     Callback = function(state)
         toggles.LagLaptop = state
@@ -4712,13 +4712,13 @@ Tab:AddToggle({
 
 -- Lag Laptop Paragraph
 Tab:AddParagraph({
-    "Lag Information",
-    "The lag effect starts after 35 seconds."
+    "معلومة عن اللاج",
+    "يبدء تاثير اللاق بعد 35 ثانيه..."
 })
 
 -- Lag Phone Section
 local Section = Tab:AddSection({
-    Name = "Lag with Phone"
+    Name = "لاج باستخدام الهاتف"
 })
 
 -- Toggle State for Lag Phone
@@ -4741,7 +4741,7 @@ end
 
 -- Lag Phone Toggle
 Tab:AddToggle({
-    Name = "Lag with Phone",
+    Name = "لاج باستخدام الهاتف",
     Default = false,
     Callback = function(state)
         toggles.LagPhone = state
@@ -4762,19 +4762,19 @@ Tab:AddToggle({
 
 -- Lag Phone Paragraph
 Tab:AddParagraph({
-    "Lag Information",
-    "The script starts to cause lag after 35 seconds."
+    "معلومة عن اللاق",
+    "يبدء تاثير اللاق بعد 35 ثانيه..."
 })
 
 local Section = Tab:AddSection({
-    Name = "Lag with Bomb"
+    Name = "لاج باستخدام القنبلة"
 })
 
 
 local BombActive = false
 
 Tab:AddToggle({
-    Name = "Lag with Bomb",
+    Name = "لاج باستخدام القنبلة",
     Default = false,
     Callback = function(Value)
         if Value then
@@ -4824,22 +4824,22 @@ Tab:AddToggle({
 })
 
 Tab:AddParagraph({
-    "Lag Information",
-    "The script starts to cause lag after 35 seconds."
+    "معلومة عن اللاق",
+    "يبدء تاثير اللاق بعد 35 ثانيه..."
 })
 
-local Tab = Window:MakeTab({"Names", "Paper"})
+local Tab = Window:MakeTab({"اسامي", "Paper"})
 
 local isNameActive = false
 local isBioActive = false
 
 local SectionRGBName = Tab:AddSection({
-    Name = "Name RGB"
+    Name = "اسم ملون"
 })
 
 Tab:AddToggle({
-    Name = "Name RGB",
-    Description = "Activates Name RGB",
+    Name = "اسم ملون",
+    Description = "يخلي اسمك ملون",
     Default = false,
     Callback = function(value)
         isNameActive = value
@@ -4849,12 +4849,12 @@ Tab:AddToggle({
 
 
 local SectionRGBBio = Tab:AddSection({
-    Name = "RGB BIO"
+    Name = "بايو ملون"
 })
 
 Tab:AddToggle({
-    Name = "RGB BIO",
-    Description = "Activate RGB BIO",
+    Name = "بايو ملون",
+    Description = "بايو ملون",
     Default = false,
     Callback = function(value)
         isBioActive = value
@@ -4904,22 +4904,22 @@ spawn(function()
 end)
 
 local SectionNames = Tab:AddSection({
-    Name = "Add Names to Player"
+    Name = "حط اسم لك جاهز"
 })
 
 local names = {
-    {"Anonymus", " Anonymus "},
-    {"PRO", " PRO "},
-    {"ERR0R_666", " ERR0R_666 "},
-    {"DARKNE1SSS", " DARKNE1SSS "},
-    {"GHOST", " GHOST "},
-    {"JOKER", " JOKER "},
-    {"ADMIN", " ADMIN "},
-    {"TUBERS93", " TUBERS 93 "},
-    {"CO0LKID", " CO0 LKID "},
-    {"GAME ATTACKED BY MADOHUB", " GAME ATTACKED BY MADOHUB "},
-    {"INC0MUN", " INC0MUN"},
-    {"BAD BOY", " BAD BOY "}
+    {"مجهول", " مجهول "},
+    {"محترف", " محترف "},
+    {"خطأ_666", " خطأ_666 "},
+    {"الظلام", " الظلام "},
+    {"شبح", " شبح "},
+    {"جوكر", " جوكر "},
+    {"مشرف", " مشرف "},
+    {"توبرز93", " توبرز 93 "},
+    {"الولد_البارد", " الولد البارد "},
+    {"تم تهكير اللعبة بواسطة سكربت مادو هاب", " تم تهكير اللعبة بواسطة سكربت مادو هاب "},
+    {"غير متصل", " غير متصل "},
+    {"ولد سيء", " ولد سيء "}
 }
 
 for _, name in ipairs(names) do
@@ -4932,7 +4932,7 @@ for _, name in ipairs(names) do
 end
 
 
-local CarTab = Window:MakeTab({"Car", "car"})
+local CarTab = Window:MakeTab({"سيارات", "car"})
 
 -- Colors for RGB
 local colors = {
@@ -4969,7 +4969,7 @@ local function changeCarColor()
 end
 
 CarTab:AddButton({
-    Name = "Remove All Cars",
+    Name = "مسح كل السيارات",
     Callback = function()
         local ofnawufn = false
 
@@ -5021,7 +5021,7 @@ end
 
 local FLINGED = Instance.new("BodyThrust", game.workspace.Vehicles[game.Players.LocalPlayer.Name.."Car"].Chassis.Mass) 
 FLINGED.Force = Vector3.new(50000, 0, 50000) 
-FLINGED.Name = "SUNTERIUM HUB FLING"
+FLINGED.Name = "MadoHub Fling"
 FLINGED.Location = game.workspace.Vehicles[game.Players.LocalPlayer.Name.."Car"].Chassis.Mass.Position
 
 for _, wvwvwasc in pairs(game.workspace.Vehicles:GetChildren()) do
@@ -5087,10 +5087,10 @@ ofnawufn = false
     end
 })
 
-CarTab:AddParagraph({"Informação:", "Recomendo usar 2 vezes para garantir que todos os veículos sejam removidos"})
+CarTab:AddParagraph({"معلومة", "أنصح باستخدامه مرتين للتأكد من إزالة جميع المركبات."})
 
 CarTab:AddButton({
-    Name = "Bring All Cars",
+    Name = "سحب كل السيارات عندك",
     Callback = function()
         for _, v in next, workspace.Vehicles:GetChildren() do
             v:SetPrimaryPartCFrame(game.Players.LocalPlayer.Character:GetPrimaryPartCFrame())
@@ -5098,7 +5098,7 @@ CarTab:AddButton({
     end
 })
 
-CarTab:AddParagraph({"Information:", "Pull all the cars from the server to you"})
+CarTab:AddParagraph({"معلومة:", "يسحب كل السيارات لعندك"})
 
 -- Speed V1 Section
 local SpeedSection = CarTab:AddSection({"Speed V1"})
@@ -5124,21 +5124,21 @@ local function ChangeCarSpeedAndTurbo(speedValue, turboValue)
         else
             redzlib:MakeNotification({
                 Name = "Error",
-                Content = "Sit in car first!",
+                Content = "اجلس في السيارة!",
                 Time = 5
             })
         end
     else
         redzlib:MakeNotification({
             Name = "Error",
-            Content = "Put a Car First!",
+            Content = "حط سيارة يا محترم!",
             Time = 5
         })
     end
 end
 
 CarTab:AddTextBox({
-    Name = "Speed",
+    Name = "سرعة",
     PlaceholderText = "50",
     Callback = function(value)
         local newSpeed = tonumber(value)
@@ -5149,7 +5149,7 @@ CarTab:AddTextBox({
 })
 
 CarTab:AddTextBox({
-    Name = "Turbo",
+    Name = "تيربو",
     PlaceholderText = "50",
     Callback = function(value)
         local newTurbo = tonumber(value)
@@ -5160,7 +5160,7 @@ CarTab:AddTextBox({
 })
 
 CarTab:AddTextBox({
-    Name = "Drift",
+    Name = "دريفت",
     PlaceholderText = "50",
     Callback = function(value)
         local args = {
@@ -5172,7 +5172,7 @@ CarTab:AddTextBox({
 })
 
 CarTab:AddButton({
-    Name = "Apply Speed, Turbo, and Drift",
+    Name = "تطبيق السرعة والتيربو والدريفت",
     Callback = function()
         ChangeCarSpeedAndTurbo(Speed, Turbo)
     end
@@ -5182,7 +5182,7 @@ CarTab:AddButton({
 local TurboSection = CarTab:AddSection({"Turbo V2"})
 
 CarTab:AddButton({
-    Name = "Turbo V2 [Better]",
+    Name = "تيربو اصدار 2 [احسن]",
     Callback = function()
      local player = game.Players.LocalPlayer
 local character = player.Character or player.CharacterAdded:Wait()
@@ -5295,10 +5295,10 @@ botaoMinimizar.MouseButton1Down:Connect(alternarBotoes)
     end
 })
 
-CarTab:AddParagraph({"Information:", "Both turbos do not require a Gamepass."})
+CarTab:AddParagraph({"معلومة:", "التيرو الاتنين لا يحتاجون جيم باس ببلاش"})
 
 -- Music Section
-local MusicSection = CarTab:AddSection({"Music for Cars, Houses"})
+local MusicSection = CarTab:AddSection({"اغاني للسيارة, Houses"})
 
 local musicIds = {
     "71373562243752", "138129019858244", "138480372357526", "122199933878670",
@@ -5354,8 +5354,8 @@ local function playHouseMusic(musicId)
 end
 
 CarTab:AddTextBox({
-    Name = "Music ID (Gamepass Required)",
-    PlaceholderText = "Enter Music ID",
+    Name = "حط ايدي موسيقة (يحتاج جيم باس)",
+    PlaceholderText = "حط ايدي الموسيقة",
     Callback = function(value)
         playCarMusic(value)
         playScooterMusic(value)
@@ -5364,7 +5364,7 @@ CarTab:AddTextBox({
 })
 
 CarTab:AddDropdown({
-    Name = "Select Music (Gamepass Required)",
+    Name = "اختر الموسيقة (يحتاج جيم باس)",
     Options = musicIds,
     Callback = function(value)
         playCarMusic(value)
@@ -5373,13 +5373,13 @@ CarTab:AddDropdown({
     end
 })
 
-CarTab:AddParagraph({"Note", "The music script works in all cars and homes."})
+CarTab:AddParagraph({"معلومة", "الاغاني تشتغل في البيوت و السيارات"})
 
 -- Car RGB Section
-local RGBSection = CarTab:AddSection({"Car RGB"})
+local RGBSection = CarTab:AddSection({"عربيه ملونه"})
 
 CarTab:AddToggle({
-    Name = "Car RGB",
+    Name = "عربية ملونة",
     Default = false,
     Callback = function(state)
         isColorChanging = state
@@ -5390,10 +5390,10 @@ CarTab:AddToggle({
     end
 })
 
-CarTab:AddParagraph({"Note", "Activating this will make your car RGB."})
+CarTab:AddParagraph({"معلومة", "تفعيل العربية الملونة يخلي عربيتك ملونة"})
 
 -- Spam Horn Section
-local HornSection = CarTab:AddSection({"Spam Horn"})
+local HornSection = CarTab:AddSection({"سبام بوق"})
 
 local spamming = false
 local args = {"Horn"}
@@ -5406,7 +5406,7 @@ local function spamHorn()
 end
 
 CarTab:AddToggle({
-    Name = "Spam Horn",
+    Name = "سبام بوق",
     Default = false,
     Callback = function(value)
         spamming = value
@@ -5417,10 +5417,10 @@ CarTab:AddToggle({
 })
 
 -- Fly Car Section
-local FlySection = CarTab:AddSection({"Fly Car"})
+local FlySection = CarTab:AddSection({"طير بالسيارة"})
 
 CarTab:AddButton({
-    Name = "Fly Car",
+    Name = "طير بالسيارة",
     Callback = function()
         --by Luscaa
 -- Version: 4.1
@@ -5776,10 +5776,10 @@ end)
     end
 })
 
-CarTab:AddParagraph({"Note", "By activating this, you can fly with your car."})
+CarTab:AddParagraph({"معلومة", "عند تفعيل هذه الميزه يمكنك الطيران بالسياره الخاص بك"})
 
 -- Spam Cars Section
-local SpamCarSection = CarTab:AddSection({"Spam Car"})
+local SpamCarSection = CarTab:AddSection({"سبام سيارات"})
 
 local carList = {
     "SchoolBus", "SmartCar", "FarmTruck", "Cadillac", "Excavator",
@@ -5798,7 +5798,7 @@ local function spawnCar(carName)
 end
 
 CarTab:AddToggle({
-    Name = "Spam Cars",
+    Name = "سبام سيارات",
     Default = false,
     Callback = function(state)
         spamCarsActive = state
@@ -5816,7 +5816,7 @@ CarTab:AddToggle({
     end
 })
 
-CarTab:AddParagraph({"Information:", "Spam several cars"})
+CarTab:AddParagraph({"معلومة:", "يسوي سبام لسيارات كتير"})
 
 
 
@@ -5837,15 +5837,15 @@ end
 updatePlayerList()
 
 -- Aba Child
-local ChildTab = Window:MakeTab({"Childs", "baby"})
+local ChildTab = Window:MakeTab({"اطفال", "baby"})
 
 local Section = ChildTab:AddSection({
-    Name = "Child"
+    Name = "اطفال"
 })
 
 local chasingplayer = nil
 local playerChild = ChildTab:AddDropdown({
-    Name = "Select a player to make a baby chase them",
+    Name = "اختر لاعب تخلي الطفل يحلقه",
     Options = players,
     Default = "",
     Callback = function(selected)
@@ -5858,7 +5858,7 @@ local playerChild = ChildTab:AddDropdown({
 })
 
 ChildTab:AddButton({
-    Name = "Update Player List",
+    Name = "حدث قائمه اللاعبين",
     Callback = function()
         local updatedPlayers = updatePlayerList()
         if playerChild and updatedPlayers then
@@ -5903,7 +5903,7 @@ game.Players.PlayerRemoving:Connect(function(player)
 end)
 
 ChildTab:AddButton({
-    Name = "Send child",
+    Name = "ارسل الطفل",
     Callback = function()
         if not chasingplayer then
             warn("No player selected!")
@@ -5955,7 +5955,7 @@ ChildTab:AddButton({
 })
 
 ChildTab:AddButton({
-    Name = "Return child",
+    Name = "رجع الطفل",
     Callback = function()
         if rawget(getgenv(), "RunService") then
             getgenv().RunService:Disconnect()
@@ -5981,7 +5981,7 @@ ChildTab:AddButton({
 })
 
 ChildTab:AddToggle({
-    Name = "Spectate Player",
+    Name = "تجسس علي اللاعب",
     Default = false,
     Callback = function(Value)
         local Players = game:GetService("Players")
@@ -6022,20 +6022,20 @@ ChildTab:AddToggle({
 })
 
 ChildTab:AddParagraph({
-    Title = "FE",
-    Content = "FE Features (All players can see it)"
+    Title = "يظهر للكل",
+    Content = "كلو يقدر يشوف"
 })
 
 -- Aba Local Player
-local LocalPlayerTab = Window:MakeTab({"Local Player", "user"})
+local LocalPlayerTab = Window:MakeTab({"انت فقط", "user"})
 
 local Section = LocalPlayerTab:AddSection({
-    Name = "Speed, Gravity and Jump"
+    Name = "السرعة والجاذبية والقفز"
 })
 
 LocalPlayerTab:AddTextBox({
-    Name = "Player Speed",
-    PlaceholderText = "Enter the speed",
+    Name = "السرعة",
+    PlaceholderText = "حط السرعه المحددة",
     Callback = function(value)
         local speed = tonumber(value)
         if speed and pl.Character and pl.Character:FindFirstChild("Humanoid") then
@@ -6047,7 +6047,7 @@ LocalPlayerTab:AddTextBox({
 })
 
 LocalPlayerTab:AddButton({
-    Name = "Reset speed",
+    Name = "رجع السرعه للعادية",
     Callback = function()
         if pl.Character and pl.Character:FindFirstChild("Humanoid") then
             pl.Character.Humanoid.WalkSpeed = 16
@@ -6056,8 +6056,8 @@ LocalPlayerTab:AddButton({
 })
 
 LocalPlayerTab:AddTextBox({
-    Name = "Jump Size",
-    PlaceholderText = "Enter the jump height",
+    Name = "حجم القفز",
+    PlaceholderText = "حط حجم القفز المحدد",
     Callback = function(value)
         local jumpHeight = tonumber(value)
         if jumpHeight and pl.Character and pl.Character:FindFirstChild("Humanoid") then
@@ -6069,7 +6069,7 @@ LocalPlayerTab:AddTextBox({
 })
 
 LocalPlayerTab:AddButton({
-    Name = "Reset Jump",
+    Name = "رجع حجم القفز للعادي",
     Callback = function()
         if pl.Character and pl.Character:FindFirstChild("Humanoid") then
             pl.Character.Humanoid.JumpPower = 50
@@ -6078,8 +6078,8 @@ LocalPlayerTab:AddButton({
 })
 
 LocalPlayerTab:AddTextBox({
-    Name = "Gravity",
-    PlaceholderText = "Enter the gravity",
+    Name = "الجاذبية",
+    PlaceholderText = "حط الجاذبية يلي تبيها",
     Callback = function(value)
         local gravity = tonumber(value)
         if gravity then
@@ -6091,14 +6091,14 @@ LocalPlayerTab:AddTextBox({
 })
 
 LocalPlayerTab:AddButton({
-    Name = "Reset Gravity",
+    Name = "رجع الجاذبيه للعادية",
     Callback = function()
         workspace.Gravity = 196.2
     end
 })
 
 Section = LocalPlayerTab:AddSection({
-    Name = "Spam Chat"
+    Name = "سبام شات"
 })
 
 local TextSave
@@ -6125,15 +6125,15 @@ function sendchat(msg)
 end
 
 LocalPlayerTab:AddTextBox({
-    Name = "Enter text",
-    PlaceholderText = "Type the message",
+    Name = "حط رسالة",
+    PlaceholderText = "اكتب رسالة...",
     Callback = function(text)
         TextSave = text
     end
 })
 
 LocalPlayerTab:AddButton({
-    Name = "Send Chat",
+    Name = "ارسل الرسالة",
     Callback = function()
         sendchat(TextSave)
     end
@@ -6142,7 +6142,7 @@ LocalPlayerTab:AddButton({
 getgenv().ChaosHubEnviarDelay = 1
 
 LocalPlayerTab:AddSlider({
-    Name = "Delay for Spam",
+    Name = "تأخير للسبام",
     Min = 0.4,
     Max = 10,
     Default = 1,
@@ -6153,7 +6153,7 @@ LocalPlayerTab:AddSlider({
 })
 
 LocalPlayerTab:AddToggle({
-    Name = "Spam Chat",
+    Name = "سبام شات",
     Default = false,
     Flag = "Spawn de textos",
     Callback = function(Value)
@@ -6166,7 +6166,7 @@ LocalPlayerTab:AddToggle({
 })
 
 LocalPlayerTab:AddButton({
-    Name = "Spam chat Hacked By MadoHub",
+    Name = "سبام شات تم التهكير بواسطة سكربت مادو",
     Callback = function()
         if game:GetService("TextChatService").ChatVersion == Enum.ChatVersion.TextChatService then 
             game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("hi\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\rServer: Hacked by MadoHub")
@@ -6177,7 +6177,7 @@ end
 })
 
 LocalPlayerTab:AddButton({
-    Name = "Clear Chat",
+    Name = "مسح الشات",
     Callback = function()
         if game:GetService("TextChatService").ChatVersion == Enum.ChatVersion.TextChatService then 
             game:GetService("TextChatService").TextChannels.RBXGeneral:SendAsync("hi\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\r\rServer: Chat Cleared")
@@ -6188,14 +6188,14 @@ end
 })
 
 Section = LocalPlayerTab:AddSection({
-    Name = "Headsit"
+    Name = "اقعد علي راس اللاعبين"
 })
 
 local selectedHeadSit = nil
 local headSitConnection = nil
 
 local headSitDropdown = LocalPlayerTab:AddDropdown({
-    Name = "Select Player",
+    Name = "اختر اللاعب",
     Default = "",
     Options = players,
     Callback = function(Value)
@@ -6204,7 +6204,7 @@ local headSitDropdown = LocalPlayerTab:AddDropdown({
 })
 
 LocalPlayerTab:AddToggle({
-    Name = "Head Sit",
+    Name = "اقعد علي راس اللاعب",
     Default = false,
     Callback = function(bool)
         local player = game.Players.LocalPlayer
@@ -6254,7 +6254,7 @@ LocalPlayerTab:AddToggle({
 })
 
 LocalPlayerTab:AddButton({
-    Name = "Update table",
+    Name = "تحديث قائمه اللاعبين",
     Callback = function()
         local updatedPlayers = updatePlayerList()
         if headSitDropdown and updatedPlayers then
@@ -6271,33 +6271,34 @@ LocalPlayerTab:AddButton({
     end
 })
 
-local Tab = Window:MakeTab({"Teleporters", "tp"}) -- Nome do ícone: 'portal' em minúsculo para teleporte
+local Tab = Window:MakeTab({"انتقال فوري", "tp"}) -- Nome do ícone: 'portal' em minúsculo para teleporte
 
--- Teleport Buttons
+-- أزرار الانتقال الفوري
 local teleportButtons = {
-    {"To the Backstage", CFrame.new(192, 4, 272)},
-    {"To the Urban Center", CFrame.new(136, 4, 117)},
-    {"To the Crime Area", CFrame.new(-119, -28, 235)},
-    {"To the Deserted House", CFrame.new(986, 4, 63)},
-    {"To the Agency Portal", CFrame.new(672, 4, -296)},
-    {"To the Hideout", CFrame.new(505, -75, 143)},
-    {"To the School", CFrame.new(-312, 4, 211)},
-    {"To Brook Café", CFrame.new(161, 8, 52)},
-    {"To the Starting Point", CFrame.new(-26, 4, -23)},
-    {"To the Main Arch", CFrame.new(-589, 141, -59)},
-    {"To the Hospital", CFrame.new(-309, 4, 71)},
-    {"To the Agency Base", CFrame.new(179, 4, -464)},
-    {"To the Workshop's Hidden Room", CFrame.new(0, 4, -495)},
-    {"To Secret Room 2", CFrame.new(-343, 4, -613)},
-    {"To the Isolated Island", CFrame.new(-1925, 23, 127)},
-    {"To the Hotel Plaza", CFrame.new(182, 4, 150)},
-    {"Climb Mountain 1", CFrame.new(-670, 251, 765)},
-    {"To the Main Bank", CFrame.new(2.28, 4.65, 254.58)},
-    {"To the Clothing Store", CFrame.new(-46.15, 4.65, 253.20)},
-    {"To the Refuge", CFrame.new(-88.48, 22.05, 262.34)},
-    {"To the Dental Clinic", CFrame.new(-53.58, 22.15, 265.61)},
-    {"To the Coffee Shop", CFrame.new(-97.12, 4.65, 254.99)}
+    {"إلى الكواليس", CFrame.new(192, 4, 272)},
+    {"إلى المركز الحضري", CFrame.new(136, 4, 117)},
+    {"إلى منطقة الجريمة", CFrame.new(-119, -28, 235)},
+    {"إلى المنزل المهجور", CFrame.new(986, 4, 63)},
+    {"إلى بوابة الوكالة", CFrame.new(672, 4, -296)},
+    {"إلى المخبأ", CFrame.new(505, -75, 143)},
+    {"إلى المدرسة", CFrame.new(-312, 4, 211)},
+    {"إلى مقهى بروك", CFrame.new(161, 8, 52)},
+    {"إلى نقطة البداية", CFrame.new(-26, 4, -23)},
+    {"إلى القوس الرئيسي", CFrame.new(-589, 141, -59)},
+    {"إلى المستشفى", CFrame.new(-309, 4, 71)},
+    {"إلى قاعدة الوكالة", CFrame.new(179, 4, -464)},
+    {"إلى الغرفة المخفية في الورشة", CFrame.new(0, 4, -495)},
+    {"إلى الغرفة السرية 2", CFrame.new(-343, 4, -613)},
+    {"إلى الجزيرة المعزولة", CFrame.new(-1925, 23, 127)},
+    {"إلى ساحة الفندق", CFrame.new(182, 4, 150)},
+    {"تسلق الجبل 1", CFrame.new(-670, 251, 765)},
+    {"إلى البنك الرئيسي", CFrame.new(2.28, 4.65, 254.58)},
+    {"إلى محل الملابس", CFrame.new(-46.15, 4.65, 253.20)},
+    {"إلى الملجأ", CFrame.new(-88.48, 22.05, 262.34)},
+    {"إلى عيادة الأسنان", CFrame.new(-53.58, 22.15, 265.61)},
+    {"إلى المقهى", CFrame.new(-97.12, 4.65, 254.99)}
 }
+
 
 
 for _, btn in ipairs(teleportButtons) do
@@ -6310,7 +6311,7 @@ for _, btn in ipairs(teleportButtons) do
 end
 
 
-local ToolsTab = Window:MakeTab({"Items", "backpack"})
+local ToolsTab = Window:MakeTab({"اغراض", "backpack"})
 
 -- Tabela de cores
 -- Color Table
@@ -6327,7 +6328,7 @@ local colorsTable = {
 
 -- Botão para colorir o mapa
 ToolsTab:AddButton({
-    Name = "Coloring Floor Map [Very OP]",
+    Name = "لون الارض (قوي جدا)",
     Callback = function()
       local toolselected = "PaintRoller"
 local dupeamot = 100
@@ -6624,7 +6625,7 @@ end
 })
 
 ToolsTab:AddButton({
-    Name = "Coloring Sky Map [Very OP]",
+    Name = "لون السماء (قوي جدا)",
     Callback = function()
        local toolselected = "PaintRoller"
 local dupeamot = 100
@@ -7051,8 +7052,8 @@ end
 
 -- Dropdown para combinações de cores
 ToolsTab:AddDropdown({
-    Name = "Select the Color Combination",
-    Description = "Choose a color combination",
+    Name = "اختر مجموعة الألوان",
+    Description = "حدد مجموعة الألوان",
     Options = (function()
         local combinationNames = {}
         for _, combination in ipairs(colorCombinations) do
@@ -7108,7 +7109,7 @@ local picktoolremote = game:GetService("ReplicatedStorage").RE:FindFirstChild("1
 
 -- Seção de controle de itens
 local Section = ToolsTab:AddSection({
-    Name = "Items Control"
+    Name = "تحكم بالاغراض"
 })
 
 -- Botão para limpar todas as ferramentas
@@ -7124,12 +7125,12 @@ ToolsTab:AddButton({
 
 -- Seção para equipar itens
 Section = ToolsTab:AddSection({
-    Name = "Equip Items"
+    Name = "مسك الاغراض"
 })
 
 -- Botão para equipar todos os itens
 ToolsTab:AddButton({
-    Name = "Equip all items",
+    Name = "مسك الاغراض كلها",
     Callback = function()
         for _, tool in pairs(game:GetService("Players").LocalPlayer.Backpack:GetChildren()) do
             if tool:IsA("Tool") then
@@ -9220,7 +9221,7 @@ ToolsTab:AddButton({
     end
 })
 
-local UniversalTab = Window:MakeTab({"Scripts Universais", "plane"})
+local UniversalTab = Window:MakeTab({"سكربتات تانيه", "plane"})
 
 -- Seção para Scripts Universais
 Section = UniversalTab:AddSection({
