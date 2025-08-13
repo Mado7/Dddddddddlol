@@ -1,59 +1,82 @@
-local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
+debugX = true
+
+local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-    Name = "MadoHub Language Selection",
-    LoadingTitle = "MadoHub",
-    LoadingSubtitle = "Choose Your Language",
-    Theme = "Dark",
-    DisableRayfieldPrompts = false,
-    ConfigurationSaving = {
-        Enabled = true,
-        FolderName = "MadoHub",
-        FileName = "LanguageSettings"
-    },
-    Discord = { Enabled = false },
-    KeySystem = false
+   Name = "MadoHub Language Selection",
+   Icon = 0,
+   LoadingTitle = "MadoHub",
+   LoadingSubtitle = "Choose Your Language",
+   Theme = "Default",
+   
+   DisableRayfieldPrompts = false,
+   DisableBuildWarnings = false,
+
+   ConfigurationSaving = {
+      Enabled = true,
+      FolderName = nil,
+      FileName = "MadoHubLanguage"
+   },
+
+   Discord = {
+      Enabled = false,
+      Invite = "noinvitelink",
+      RememberJoins = true
+   },
+
+   KeySystem = false,
+   KeySettings = {
+      Title = "MadoHub Key",
+      Subtitle = "Key System",
+      Note = "No method of obtaining the key is provided",
+      FileName = "Key",
+      SaveKey = true,
+      GrabKeyFromSite = false,
+      Key = {"Hello"}
+   }
 })
 
 local Tab = Window:CreateTab("Language Selection", 4483362458)
 
-Tab:CreateSection("Select your preferred language:")
+local Section = Tab:CreateSection("Select your preferred language:")
 
 -- English Button
 Tab:CreateButton({
-    Name = "English",
-    Callback = function()
-        Rayfield:CreateNotification({
-            Title = "Language Selected",
-            Content = "English has been selected.",
-            Duration = 3
-        })
-        -- You can add your English setup code here
-    end
+   Name = "English",
+   Callback = function()
+       Rayfield:CreateNotification({
+           Title = "Language Selected",
+           Content = "English has been selected.",
+           Duration = 3
+       })
+       -- Add English UI setup code here
+   end,
 })
 
 -- Arabic Button
 Tab:CreateButton({
-    Name = "العربية",
-    Callback = function()
-        Rayfield:CreateNotification({
-            Title = "تنبيه",
-            Content = "الترجمة العربية قد لا تكون دقيقة تمامًا. يرجى الملاحظة.",
-            Duration = 5
-        })
-        -- You can add your Arabic setup code here
-    end
+   Name = "العربية",
+   Callback = function()
+       Rayfield:CreateNotification({
+           Title = "تنبيه",
+           Content = "الترجمة العربية قد لا تكون دقيقة تمامًا. يرجى الملاحظة.",
+           Duration = 5
+       })
+       -- Add Arabic UI setup code here
+   end,
 })
 
--- Additional note paragraph
+-- Paragraph note
 Tab:CreateParagraph({
-    Title = "ملاحظة:",
-    Content = "الترجمة العربية قد لا تكون دقيقة تمامًا. يرجى الملاحظة."
+   Title = "ملاحظة:",
+   Content = "الترجمة العربية قد لا تكون دقيقة تمامًا. يرجى الملاحظة."
 })
 
--- Additional note paragraph
+-- Paragraph note
 Tab:CreateParagraph({
-    Title = "Note:",
-    Content = "Arabic Translation might not be the best"
+   Title = "Note",
+   Content = "Arabic translation might not be the best.."
 })
 
+
+Rayfield:LoadConfiguration()
