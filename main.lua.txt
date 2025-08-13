@@ -1,146 +1,59 @@
-local TweenService = game:GetService("TweenService")
-local RunService = game:GetService("RunService")
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local playerGui = player:WaitForChild("PlayerGui")
+local Rayfield = loadstring(game:HttpGet('https://raw.githubusercontent.com/shlexware/Rayfield/main/source'))()
 
--- ScreenGui
-local screenGui = Instance.new("ScreenGui")
-screenGui.Name = "MadoHubUI"
-screenGui.ResetOnSpawn = false
-screenGui.Parent = playerGui
+local Window = Rayfield:CreateWindow({
+    Name = "MadoHub Language Selection",
+    LoadingTitle = "MadoHub",
+    LoadingSubtitle = "Choose Your Language",
+    Theme = "Dark",
+    DisableRayfieldPrompts = false,
+    ConfigurationSaving = {
+        Enabled = true,
+        FolderName = "MadoHub",
+        FileName = "LanguageSettings"
+    },
+    Discord = { Enabled = false },
+    KeySystem = false
+})
 
--- Fullscreen Gradient Background
-local bg = Instance.new("Frame")
-bg.Size = UDim2.new(1, 0, 1, 0)
-bg.Position = UDim2.new(0, 0, 0, 0)
-bg.BackgroundColor3 = Color3.fromRGB(10, 10, 30)
-bg.BackgroundTransparency = 1
-bg.Parent = screenGui
+local Tab = Window:CreateTab("Language Selection", 4483362458)
 
-local gradient = Instance.new("UIGradient")
-gradient.Color = ColorSequence.new{
-    ColorSequenceKeypoint.new(0, Color3.fromRGB(10, 10, 30)),
-    ColorSequenceKeypoint.new(1, Color3.fromRGB(50, 20, 80))
-}
-gradient.Rotation = 45
-gradient.Parent = bg
+Tab:CreateSection("Select your preferred language:")
 
--- Tween helper
-local function tween(inst, props, time, style, dir)
-    local tween = TweenService:Create(inst, TweenInfo.new(time, style or Enum.EasingStyle.Quad, dir or Enum.EasingDirection.Out), props)
-    tween:Play()
-    return tween
-end
-
--- Title
-local title = Instance.new("TextLabel")
-title.Size = UDim2.new(1,0,0,120)
-title.Position = UDim2.new(0,0,0.2,0)
-title.BackgroundTransparency = 1
-title.Text = "MadoHub"
-title.TextColor3 = Color3.fromRGB(255,255,255)
-title.Font = Enum.Font.GothamBlack
-title.TextScaled = true
-title.TextTransparency = 1
-title.Parent = bg
-
--- Subtitle
-local subtitle = Instance.new("TextLabel")
-subtitle.Size = UDim2.new(1,0,0,60)
-subtitle.Position = UDim2.new(0,0,0.35,0)
-subtitle.BackgroundTransparency = 1
-subtitle.Text = "Choose your language - اختر لغتك"
-subtitle.TextColor3 = Color3.fromRGB(220,220,220)
-subtitle.Font = Enum.Font.GothamBold
-subtitle.TextScaled = true
-subtitle.TextTransparency = 1
-subtitle.Parent = bg
-
--- Buttons
-local function createButton(text, posY)
-    local btn = Instance.new("TextButton")
-    btn.Size = UDim2.new(0.35,0,0,50) -- mobile friendly width
-    btn.AnchorPoint = Vector2.new(0.5,0)
-    btn.Position = UDim2.new(0.5,0,posY,0)
-    btn.BackgroundColor3 = Color3.fromRGB(45,45,60)
-    btn.BorderSizePixel = 0
-    btn.Text = text
-    btn.Font = Enum.Font.GothamBold
-    btn.TextColor3 = Color3.fromRGB(255,255,255)
-    btn.TextScaled = true
-    btn.BackgroundTransparency = 0.2
-    btn.TextTransparency = 1
-    btn.ClipsDescendants = true
-    btn.Parent = bg
-
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0,12)
-    corner.Parent = btn
-
-    btn.MouseEnter:Connect(function()
-        tween(btn, {BackgroundColor3 = Color3.fromRGB(70,50,120)}, 0.2)
-    end)
-    btn.MouseLeave:Connect(function()
-        tween(btn, {BackgroundColor3 = Color3.fromRGB(45,45,60)}, 0.2)
-    end)
-
-    return btn
-end
-
-local englishBtn = createButton("English", 0.55)
-local arabicBtn = createButton("Arabic", 0.65)
-
--- Animate UI sequence
-tween(bg, {BackgroundTransparency = 0}, 1.5)
-wait(0.5)
-tween(title, {TextTransparency = 0}, 1.2)
-wait(0.3)
-tween(subtitle, {TextTransparency = 0}, 1)
-wait(0.3)
-tween(englishBtn, {TextTransparency = 0}, 0.8)
-tween(arabicBtn, {TextTransparency = 0}, 0.8)
-
--- Buttons click
-local function exitUI()
-    tween(bg, {BackgroundTransparency = 1}, 0.8)
-    wait(0.8)
-    screenGui:Destroy()
-end
-
-englishBtn.MouseButton1Click:Connect(exitUI)
-arabicBtn.MouseButton1Click:Connect(exitUI)
-
--- DOT BUTTERFLIES
-local butterflies = {}
-local numDots = 25
-
-for i = 1, numDots do
-    local dot = Instance.new("Frame")
-    dot.Size = UDim2.new(0,8,0,8)
-    dot.Position = UDim2.new(math.random(),0,math.random(),0)
-    dot.BackgroundColor3 = Color3.fromRGB(255,200,255)
-    dot.BorderSizePixel = 0
-    dot.AnchorPoint = Vector2.new(0.5,0.5)
-    dot.BackgroundTransparency = 0
-    dot.Parent = bg
-
-    local corner = Instance.new("UICorner")
-    corner.CornerRadius = UDim.new(0.5,0)
-    corner.Parent = dot
-
-    local dx = math.random(-50,50)/100
-    local dy = math.random(20,60)/100
-
-    table.insert(butterflies, {dot = dot, dx = dx, dy = dy})
-end
-
-RunService.RenderStepped:Connect(function(delta)
-    for _, b in pairs(butterflies) do
-        local newPos = b.dot.Position + UDim2.new(b.dx*delta,0,b.dy*delta,0)
-        if newPos.X.Scale > 1 then newPos = UDim2.new(0,0,newPos.Y.Scale,0) end
-        if newPos.X.Scale < 0 then newPos = UDim2.new(1,0,newPos.Y.Scale,0) end
-        if newPos.Y.Scale > 1 then newPos = UDim2.new(newPos.X.Scale,0,0,0) end
-        b.dot.Position = newPos
+-- English Button
+Tab:CreateButton({
+    Name = "English",
+    Callback = function()
+        Rayfield:CreateNotification({
+            Title = "Language Selected",
+            Content = "English has been selected.",
+            Duration = 3
+        })
+        -- You can add your English setup code here
     end
-end)
+})
+
+-- Arabic Button
+Tab:CreateButton({
+    Name = "العربية",
+    Callback = function()
+        Rayfield:CreateNotification({
+            Title = "تنبيه",
+            Content = "الترجمة العربية قد لا تكون دقيقة تمامًا. يرجى الملاحظة.",
+            Duration = 5
+        })
+        -- You can add your Arabic setup code here
+    end
+})
+
+-- Additional note paragraph
+Tab:CreateParagraph({
+    Title = "ملاحظة:",
+    Content = "الترجمة العربية قد لا تكون دقيقة تمامًا. يرجى الملاحظة."
+})
+
+-- Additional note paragraph
+Tab:CreateParagraph({
+    Title = "Note:",
+    Content = "Arabic Translation might not be the best"
+})
+
